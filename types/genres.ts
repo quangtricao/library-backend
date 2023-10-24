@@ -4,3 +4,5 @@ export type GenreType = {
   books: string[];
   // images: string;
 };
+
+export type CreateGenreDTO = Omit<GenreType, 'id'>;

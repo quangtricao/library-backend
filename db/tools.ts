@@ -79,6 +79,23 @@ export const createItem = async <T extends keyof CollectionType>(
 };
 
 /**
+ * Gets an item from the database collection specified by the key. The item is identified by the id.
+ *
+ * @param key The key of the collection to create the item in. "books" | "authors" | "genres" | "users"
+ * @param id The id of the item to get.
+ * @returns Promise resolving to the item if found, otherwise undefined.
+ */
+export const getItemById = async <T extends keyof CollectionType>(
+  key: T,
+  id: string
+): Promise<DatabaseType[T][0] | undefined> => {
+  const collection = await getCollection(key);
+  const index = collection.findIndex((item) => item.id === id);
+  if (index === -1) throw new Error(`No item with id ${id} found`);
+  return collection.find((item) => item.id === id);
+};
+
+/**
  * Updates an item in the database collection specified by the key. The item is identified by the id.
  * Returns the updated item.
  *
@@ -97,9 +114,8 @@ export const updateItemById = async <T extends keyof CollectionType>(
   const index = collection.findIndex((item) => item.id === id);
   if (index === -1) throw new Error(`No item with id ${id} found`);
   const newItem = { ...collection[index], ...itemData };
-  const newCollection = _.cloneDeep(collection);
-  newCollection[index] = newItem;
-  await setCollection(key, newCollection as DatabaseType[T]);
+  collection[index] = newItem;
+  await setCollection(key, collection as DatabaseType[T]);
   return newItem;
 };
 

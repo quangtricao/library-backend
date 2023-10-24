@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' index.ts",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "lint:strict": "eslint . --ext .ts --config .eslintrc.strict.yml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.200",
     "express": "^4.18.2",
     "lodash": "^4.17.21"
   },

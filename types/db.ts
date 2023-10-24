@@ -9,3 +9,7 @@ export type DatabaseType = {
   genres: GenreType[];
   authors: AuthorType[];
 };
+
+export type CollectionType = {
+  [K in keyof DatabaseType]: DatabaseType[K];
+};

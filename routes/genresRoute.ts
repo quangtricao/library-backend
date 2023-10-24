@@ -9,9 +9,11 @@ import {
   deleteItemById,
 } from '../db/tools';
 import { errorLoggingMiddleware } from '../middlewares/error';
+import { validateIdMiddleware } from '../middlewares/validateId';
 
 export const genresRouter = express.Router();
 genresRouter.use(errorLoggingMiddleware);
+genresRouter.use('/:id', validateIdMiddleware);
 
 genresRouter.get('/', async (_req, res, next) => {
   try {

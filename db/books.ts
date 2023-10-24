@@ -1,9 +1,8 @@
-import { BookType } from '../types/books';
+import _ from 'lodash';
 import { getCollection } from './tools';
 
-// Books module to introduce book-specific db methods
-
-export const getAllBooks = async (): Promise<BookType[]> => {
+export const getBookByIsbn = async (isbn: string) => {
   const books = await getCollection('books');
-  return books;
+  const book = _.find(books, { isbn });
+  return book;
 };

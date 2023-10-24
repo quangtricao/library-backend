@@ -1,5 +1,12 @@
-import _ from 'lodash';
 import { DatabaseType } from '../types/db';
+
+const getEntityIdNumber = (
+  entity: DatabaseType[keyof DatabaseType][0]
+): number => {
+  const id = entity.id;
+  const idNumber = parseInt(id.split('-')[1]);
+  return idNumber;
+};
 
 /**
  * Generates a new id for a new iterm in a collection.
@@ -8,15 +15,12 @@ import { DatabaseType } from '../types/db';
  */
 export const generateNewId = (
   key: keyof DatabaseType,
-  collection: DatabaseType[typeof key],
-  iteration: number = 0
+  collection: DatabaseType[typeof key]
 ): string => {
-  const lastElement = _.last(collection);
-  if (!lastElement) return `${key}-1`;
-  const lastElementId = _.last(lastElement.id.split('-'));
-  const newIdNumber = Number(lastElementId) + 1 + iteration;
-  const newId = `${key}-${newIdNumber}`;
-  const idAlreadyExists = _.find(collection, { id: newId });
-  if (idAlreadyExists) return generateNewId(key, collection, iteration + 1);
-  return newId;
+  if (collection.length === 0) {
+    return `${key}-1`;
+  }
+  const entityIdNumbers = collection.map(getEntityIdNumber);
+  const maxIdNumber = Math.max(...entityIdNumbers);
+  return `${key}-${maxIdNumber + 1}`;
 };

@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' index.ts",
+    "dev": "nodemon --watch './**/*.ts' --exec ts-node index.ts",
     "lint": "eslint . --ext .ts",
-    "lint:strict": "eslint . --ext .ts --config .eslintrc.strict.yml"
+    "lint:strict": "eslint . --ext .ts --config .eslintrc.strict.yml",
+    "init-db": "ts-node ./db/initDb.ts"
   },
   "keywords": [],
   "author": "",

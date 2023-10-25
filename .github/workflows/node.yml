@@ -2,7 +2,7 @@
 name: Node.js Lint & Build
 on: [push]
 jobs:
-  lint:
+  lint-and-build:
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -20,6 +20,11 @@ const getOneGenre = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
   try {
     const foundGenre = await genreService.getOne(id);
+    if (!foundGenre) {
+      next({
+        message: 'Genre not exits',
+      });
+    }
     res.json(foundGenre);
   } catch (error) {
     next(error);

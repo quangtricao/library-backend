@@ -2,12 +2,12 @@ import express from 'express';
 
 import genreController from '../controllers/genreController';
 import { errorLoggingMiddleware } from '../middlewares/error';
-import { validateId } from '../middlewares/idValidate';
+import { genreIdValidate } from '../middlewares/genreIdValidate';
 import { validateGenre } from '../middlewares/genreBodyValidate';
 
 export const genresRouter = express.Router();
 genresRouter.use(errorLoggingMiddleware);
-genresRouter.use('/:id', validateId);
+genresRouter.use('/:id', genreIdValidate);
 
 genresRouter.get('/', genreController.getAllGenre);
 genresRouter.get('/:id', genreController.getOneGenre);

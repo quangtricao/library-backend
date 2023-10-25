@@ -3,6 +3,7 @@ import path from 'path';
 import { CollectionType, DatabaseType } from '../types/db';
 import _ from 'lodash';
 import { generateNewId } from '../utils/generateNewId';
+import { ApiError } from '../errors/ApiError';
 
 const DB_FILE_NAME = 'data.json';
 
@@ -17,8 +18,12 @@ export const getDbPath = (): string => {
  */
 export const readDb = async (): Promise<DatabaseType> => {
   const dbPath = getDbPath();
-  const db = await readFile(dbPath, 'utf-8');
-  return JSON.parse(db);
+  try {
+    const db = await readFile(dbPath, 'utf-8');
+    return JSON.parse(db);
+  } catch (e: unknown) {
+    throw ApiError.internal('Failed to perform the operation.', e); // As Yazan said, we should not really tell that it's the database that failed.
+  }
 };
 
 /**
@@ -29,7 +34,11 @@ export const readDb = async (): Promise<DatabaseType> => {
  */
 export const writeDb = async (data: DatabaseType): Promise<void> => {
   const dbPath = getDbPath();
-  await writeFile(dbPath, JSON.stringify(data));
+  try {
+    await writeFile(dbPath, JSON.stringify(data));
+  } catch (e: unknown) {
+    throw ApiError.internal('Failed to perform the operation.', e);
+  }
 };
 
 /**
@@ -40,7 +49,7 @@ export const writeDb = async (data: DatabaseType): Promise<void> => {
 export const getCollection = async <T extends keyof CollectionType>(
   key: T
 ): Promise<DatabaseType[T]> => {
-  const db = await readDb();
+  const db = await readDb(); // Don't need to throw custom error here because readDb already does that.
   return db[key];
 };
 
@@ -71,8 +80,7 @@ export const createItem = async <T extends keyof CollectionType>(
   itemDto: Omit<DatabaseType[T][0], 'id'>
 ): Promise<DatabaseType[T][0]> => {
   const collection = await getCollection(key);
-  const newId = generateNewId(key, collection);
-  const newItem = { ...itemDto, id: newId };
+  const newItem = { ...itemDto, id: generateNewId(key, collection) };
   const newCollection = [...collection, newItem];
   await setCollection(key, newCollection as DatabaseType[T]);
   return newItem;
@@ -110,10 +118,13 @@ export const updateItemById = async <T extends keyof CollectionType>(
 ): Promise<DatabaseType[T][0]> => {
   const collection = await getCollection(key);
   const index = collection.findIndex((item) => item.id === id);
-  if (index === -1) throw new Error(`No item with id ${id} found`);
+  if (index === -1)
+    throw ApiError.internal(`Failed to update item.`, {
+      message: 'Tried to update an item that does not exist.',
+    });
   const newItem = { ...collection[index], ...itemData };
   collection[index] = newItem;
-  await setCollection(key, collection as DatabaseType[T]);
+  await setCollection(key, collection);
   return newItem;
 };
 
@@ -130,8 +141,11 @@ export const deleteItemById = async <T extends keyof CollectionType>(
 ): Promise<void> => {
   const collection = await getCollection(key);
   const index = collection.findIndex((item) => item.id === id);
-  if (index === -1) throw new Error(`No item with id ${id} found`);
-  const newCollection = _.cloneDeep(collection);
-  newCollection.splice(index, 1);
-  await setCollection(key, newCollection as DatabaseType[T]);
+  if (index === -1) {
+    throw ApiError.internal(`Failed to delete item.`, {
+      message: `Tried to delete an item that does not exist.`,
+    });
+  }
+  collection.splice(index, 1);
+  await setCollection(key, collection);
 };

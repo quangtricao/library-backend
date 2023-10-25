@@ -14,7 +14,7 @@ const genreSchema = z.object({
     .min(1),
 });
 
-export async function genreBodyValidate(
+export async function validateGenre(
   req: Request,
   res: Response,
   next: NextFunction

@@ -5,7 +5,7 @@ const genreSchema = z.string().startsWith('genres-', {
   message: 'Invalid ID. ID must start with: genres-{ID}',
 });
 
-export async function validateIdMiddleware(
+export async function validateId(
   req: Request,
   res: Response,
   next: NextFunction

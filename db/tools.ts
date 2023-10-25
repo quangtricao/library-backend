@@ -90,8 +90,6 @@ export const getItemById = async <T extends keyof CollectionType>(
   id: string
 ): Promise<DatabaseType[T][0] | undefined> => {
   const collection = await getCollection(key);
-  const index = collection.findIndex((item) => item.id === id);
-  if (index === -1) throw new Error(`No item with id ${id} found`);
   return collection.find((item) => item.id === id);
 };
 

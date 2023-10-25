@@ -6,6 +6,7 @@ export function errorLoggingMiddleware(
   res: Response,
   _next: NextFunction
 ) {
-  console.log('👀 ERRROOOR!!');
+  console.log("Houston, we've got a problem:");
+  console.log(_error);
   res.json({ msg: _error.message });
 }

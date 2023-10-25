@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import BooksService from '../services/booksService';
-import { CreateBookDto } from '../types/books';
 import { ApiError } from '../errors/ApiError';
+import { BookDto } from '../types/books';
 
 async function getAllBooks(_req: Request, res: Response) {
   const books = await BooksService.findAll();
@@ -18,7 +18,7 @@ async function getBookByIsbn(req: Request<{ isbn: string }>, res: Response) {
 }
 
 async function createBook(
-  req: Request<unknown, unknown, CreateBookDto>,
+  req: Request<unknown, unknown, BookDto>,
   res: Response
 ) {
   const bookDto = req.body;
@@ -27,7 +27,7 @@ async function createBook(
 }
 
 async function updateBookByIsbn(
-  req: Request<{ isbn: string }, unknown, CreateBookDto>,
+  req: Request<{ isbn: string }, unknown, BookDto>,
   res: Response
 ) {
   const { isbn } = req.params;

@@ -6,7 +6,7 @@ rules:
   import/prefer-default-export: 0  # We're doing named so it's easier to tell what's wrong when things break
   no-console: 0  # TODO: Remove it before submitting
   '@typescript-eslint/no-unused-vars':  # Don't warn us about unused vars that have _ in front of them
-    - warn
+    - error
     - argsIgnorePattern: ^_
       varsIgnorePattern: ^_
       caughtErrorsIgnorePattern: ^_

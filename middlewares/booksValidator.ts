@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
 
+const DATE_REGEXP = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
+
 const BookDtoSchema = z.object({
   isbn: z.string({ required_error: 'Please provide ISBN' }).min(2).max(13),
   title: z.string({ required_error: 'Please provide title' }).min(2).max(100),
@@ -18,23 +20,20 @@ const BookDtoSchema = z.object({
     .max(100),
   publishedDate: z
     .string({ required_error: 'Please provide publishedDate' })
-    .regex(
-      /d{4}-\d{2}-\d{2}/,
-      'Please provide a valid date. Example: 2021-01-01'
-    ),
+    .regex(DATE_REGEXP, 'Please provide a valid date. Example: 2021-01-01'),
   status: z.enum(['available', 'borrowed']).default('available'),
   borrowerId: z.string().optional(),
   borrowDate: z
     .string()
     .regex(
-      /d{4}-\d{2}-\d{2}/,
+      DATE_REGEXP,
       'Please provide a valid borrowDate. Example: 2021-01-01'
     )
     .optional(),
   returnDate: z
     .string()
     .regex(
-      /d{4}-\d{2}-\d{2}/,
+      DATE_REGEXP,
       'Please provide a valid returnDate. Example: 2021-01-01'
     )
     .optional(),

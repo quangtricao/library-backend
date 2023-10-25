@@ -33,27 +33,6 @@ const getOneGenre = async (req: Request, res: Response, next: NextFunction) => {
 
 const createGenre = async (req: Request, res: Response, next: NextFunction) => {
   const body = req.body as CreateGenreDTO;
-  if (!body.books || !body.title) {
-    next({ message: 'Missing a property in body of the request.' });
-    return;
-  }
-
-  if (!(typeof body.books === 'object') || body.books.length === 0) {
-    next({
-      message: 'books property must be an array and must not be empty.',
-    });
-    return;
-  }
-
-  for (const key in body.books) {
-    if (typeof body.books[key] !== 'string') {
-      next({
-        message: 'books property must be an array of string.',
-      });
-      return;
-    }
-  }
-
   try {
     const newGenre = await genreService.create(body);
     res.json(newGenre);
@@ -65,27 +44,6 @@ const createGenre = async (req: Request, res: Response, next: NextFunction) => {
 const updateGenre = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.id;
   const body = req.body as CreateGenreDTO;
-  if (!body.books || !body.title) {
-    next({ message: 'Missing a property in body of the request.' });
-    return;
-  }
-
-  if (!(typeof body.books === 'object') || body.books.length === 0) {
-    next({
-      message:
-        'books property must be an array of string and must not be empty.',
-    });
-    return;
-  }
-
-  for (const key in body.books) {
-    if (typeof body.books[key] !== 'string') {
-      next({
-        message: 'books property must be an array of string.',
-      });
-      return;
-    }
-  }
 
   try {
     const updatedGenre = await genreService.update(id, body);

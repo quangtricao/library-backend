@@ -16,7 +16,6 @@
     "@types/lodash": "^4.14.200",
     "express": "^4.18.2",
     "lodash": "^4.17.21",
-    "uuid": "^9.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {

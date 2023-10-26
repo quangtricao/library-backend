@@ -1,19 +1,3 @@
-import { z } from 'zod';
-import { NextFunction, Request, Response } from 'express';
+import { validateId } from './idValidator';
 
-const genreSchema = z.string().startsWith('genres-', {
-  message: 'Invalid ID. ID must start with: genres-{ID}',
-});
-
-export async function genreIdValidate(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    await genreSchema.parseAsync(req.params.id);
-    return next();
-  } catch (error) {
-    return res.status(400).json(error);
-  }
-}
+export const genreIdValidate = validateId('genres');

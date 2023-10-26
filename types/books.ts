@@ -1,3 +1,5 @@
+import { z } from 'zod';
+import { BookDtoSchema } from '../schemas/book';
 //
 //   I know it's a holywar theme, but at least for generic types like Book I prefer using Type suffix.
 //   Here's the thing: you can have a model named Book. You can have a React component named Book. In a library app you can have pretty much anything named Book.
@@ -5,19 +7,5 @@
 //
 //   I want my LSP to be able to understand I'm referring to the type right away, so I wouldn't have to Tab through all of the suggestions it has to offer.
 //
-
-export type BookType = {
-  id: string;
-  isbn: string;
-  title: string;
-  image: string;
-  authors: string[];
-  publisher: string;
-  status: 'available' | 'borrowed';
-  borrowerId?: string;
-  publishedDate: string;
-  borrowDate?: string;
-  returnDate?: string;
-};
-
-export type BookDto = Omit<BookType, 'id'>;
+export type BookDto = z.infer<typeof BookDtoSchema>;
+export type BookType = BookDto & { id: string };

@@ -1,5 +1,10 @@
-import { deleteBookByIsbn, getBookByIsbn, updateBookByIsbn } from '../db/books';
-import { createItem, getCollection } from '../db/tools';
+import {
+  createBook,
+  deleteBookByIsbn,
+  getBookByIsbn,
+  updateBookByIsbn,
+} from '../db/books';
+import { getCollection } from '../db/tools';
 import { BookDto } from '../types/books';
 
 async function findAll() {
@@ -13,7 +18,7 @@ async function findOne(isbn: string) {
 }
 
 async function createOne(bookDto: BookDto) {
-  const newBook = await createItem('books', bookDto);
+  const newBook = await createBook(bookDto);
   return newBook;
 }
 

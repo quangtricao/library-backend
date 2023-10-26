@@ -1,5 +1,10 @@
 import _ from 'lodash';
-import { deleteItemById, getCollection, updateItemById } from './tools';
+import {
+  createItem,
+  deleteItemById,
+  getCollection,
+  updateItemById,
+} from './tools';
 import { BookDto } from '../types/books';
 import { ApiError } from '../errors/ApiError';
 
@@ -24,4 +29,14 @@ export const deleteBookByIsbn = async (isbn: string) => {
     throw ApiError.resourceNotFound('Book not found');
   }
   await deleteItemById('books', book.id);
+};
+
+export const createBook = async (bookDto: BookDto) => {
+  const { isbn } = bookDto;
+  const isbnExists = await getBookByIsbn(isbn);
+  if (isbnExists) {
+    throw ApiError.badRequest('Book with this ISBN already exists'); // simulating a unique constraint on isbn
+  }
+  const newBook = await createItem('books', bookDto);
+  return newBook;
 };

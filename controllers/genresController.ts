@@ -15,14 +15,14 @@ const getOneGenre = async (req: Request, res: Response) => {
   if (!foundGenre) {
     throw ApiError.resourceNotFound('Genre not exits');
   }
-  res.status(201).json(foundGenre);
+  res.status(200).json(foundGenre);
 };
 
 const createGenre = async (req: Request, res: Response) => {
   const body = req.body as CreateGenreDTO;
 
   const newGenre = await genreService.create(body);
-  res.json(newGenre);
+  res.status(201).json(newGenre);
 };
 
 const updateGenre = async (req: Request, res: Response) => {
@@ -30,14 +30,14 @@ const updateGenre = async (req: Request, res: Response) => {
   const body = req.body as CreateGenreDTO;
 
   const updatedGenre = await genreService.update(id, body);
-  res.json(updatedGenre);
+  res.status(200).json(updatedGenre);
 };
 
 const deleteGenre = async (req: Request, res: Response) => {
   const id = req.params.id;
 
   await genreService.remove(id);
-  res.status(204).json({ message: true });
+  res.status(204).end();
 };
 
 export default {

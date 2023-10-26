@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import genreService from '../services/genreService';
-import { CreateGenreDTO } from '../types/genres';
+import { GenreDTO } from '../types/genres';
 import { ApiError } from '../errors/ApiError';
 
 const getAllGenre = async (_req: Request, res: Response) => {
@@ -19,7 +19,7 @@ const getOneGenre = async (req: Request, res: Response) => {
 };
 
 const createGenre = async (req: Request, res: Response) => {
-  const body = req.body as CreateGenreDTO;
+  const body = req.body as GenreDTO;
 
   const newGenre = await genreService.create(body);
   res.status(201).json(newGenre);
@@ -27,7 +27,7 @@ const createGenre = async (req: Request, res: Response) => {
 
 const updateGenre = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const body = req.body as CreateGenreDTO;
+  const body = req.body as GenreDTO;
 
   const updatedGenre = await genreService.update(id, body);
   res.status(200).json(updatedGenre);

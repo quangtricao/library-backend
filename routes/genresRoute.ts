@@ -4,7 +4,7 @@ import genreController from '../controllers/genresController';
 import { validateId } from '../middlewares/idValidator';
 import { validateGenre } from '../middlewares/genreBodyValidate';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
-
+import { afterMiddleware } from '../middlewares/afterMiddleware';
 export const genresRouter = express.Router();
 
 genresRouter.use('/:id', validateId('genres'));
@@ -25,3 +25,5 @@ genresRouter.delete(
   '/:id',
   passThrowsToMiddleware(genreController.deleteGenre)
 );
+
+genresRouter.use(afterMiddleware);

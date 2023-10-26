@@ -1,12 +1,9 @@
 import express from 'express';
 import BooksController from '../controllers/booksController';
 import BooksValidator from '../middlewares/booksValidator';
-import { errorLoggingMiddleware } from '../middlewares/error';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 
 export const booksRouter = express.Router();
-
-booksRouter.use(errorLoggingMiddleware);
 
 booksRouter.get('/', passThrowsToMiddleware(BooksController.getAllBooks));
 booksRouter.get(

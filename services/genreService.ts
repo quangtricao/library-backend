@@ -6,7 +6,7 @@ import {
   deleteItemById,
 } from '../db/tools';
 
-import { CreateGenreDTO, GenreType } from '../types/genres';
+import { GenreDTO, GenreType } from '../types/genres';
 
 const getAll = async (): Promise<GenreType[]> => {
   const gernes = await getCollection('genres');
@@ -18,15 +18,12 @@ const getOne = async (id: string): Promise<GenreType | undefined> => {
   return foundGenre;
 };
 
-const create = async (genre: CreateGenreDTO): Promise<GenreType> => {
+const create = async (genre: GenreDTO): Promise<GenreType> => {
   const newGenre = await createItem('genres', genre);
   return newGenre;
 };
 
-const update = async (
-  id: string,
-  genre: CreateGenreDTO
-): Promise<GenreType> => {
+const update = async (id: string, genre: GenreDTO): Promise<GenreType> => {
   const updatedGenre = await updateItemById('genres', id, genre);
   return updatedGenre;
 };

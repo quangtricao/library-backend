@@ -1,8 +1,5 @@
-export type GenreType = {
-  id: string;
-  title: string;
-  books: string[];
-  // images: string;
-};
+import z from 'zod';
+import { genreSchema } from '../schemas/genre';
 
-export type CreateGenreDTO = Omit<GenreType, 'id'>;
+export type GenreDTO = z.infer<typeof genreSchema>;
+export type GenreType = GenreDTO & { id: string };

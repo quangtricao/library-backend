@@ -1,13 +1,13 @@
 import express from 'express';
 
 import genreController from '../controllers/genresController';
-import { genreIdValidate } from '../middlewares/genreIdValidate';
+import { validateId } from '../middlewares/idValidator';
 import { validateGenre } from '../middlewares/genreBodyValidate';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
-
+import { afterMiddleware } from '../middlewares/afterMiddleware';
 export const genresRouter = express.Router();
 
-genresRouter.use('/:id', genreIdValidate);
+genresRouter.use('/:id', validateId('genres'));
 
 genresRouter.get('/', passThrowsToMiddleware(genreController.getAllGenre));
 genresRouter.get('/:id', passThrowsToMiddleware(genreController.getOneGenre));
@@ -25,3 +25,5 @@ genresRouter.delete(
   '/:id',
   passThrowsToMiddleware(genreController.deleteGenre)
 );
+
+genresRouter.use(afterMiddleware);

@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 import { CollectionType, DatabaseType } from '../types/db';
 import _ from 'lodash';
-import { generateNewId } from '../utils/generateNewId';
+import { generateNewId } from './generateNewId';
 import { ApiError } from '../errors/ApiError';
 
 const DB_FILE_NAME = 'data.json';

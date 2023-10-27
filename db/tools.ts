@@ -83,7 +83,7 @@ export const createItem = async <T extends keyof CollectionType>(
   const newItem = { ...itemDto, id: generateNewId(key, collection) };
   const newCollection = [...collection, newItem];
   await setCollection(key, newCollection as DatabaseType[T]);
-  return newItem;
+  return newItem as DatabaseType[T][0];
 };
 
 /**

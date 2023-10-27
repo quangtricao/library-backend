@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import BooksService from '../services/booksService';
+import StatusLogger from '../utils/statusLogger';
 import { ApiError } from '../errors/ApiError';
 import { BookDto } from '../types/books';
 
@@ -23,6 +24,7 @@ async function createBook(
 ) {
   const bookDto = req.body;
   const newBook = await BooksService.createOne(bookDto);
+  StatusLogger.created('books', newBook.id);
   res.status(201).json(newBook);
 }
 

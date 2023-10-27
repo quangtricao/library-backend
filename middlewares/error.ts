@@ -9,9 +9,10 @@ export function errorLoggingMiddleware(
   _next: NextFunction
 ) {
   if (error instanceof ApiError) {
-    console.log("Houston, we've got a problem:");
-    console.log(error);
     res.status(error.code).json({ msg: error.message });
     return;
   }
+
+  res.status(500).json({ msg: 'Something went wrong' });
+  console.error(error); // So we could see the error in all of its ugliness in the console
 }

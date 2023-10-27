@@ -1,10 +1,19 @@
 # ExpressJS
 
+[![Node.js Lint & Build](https://github.com/arf1e/team-5-express/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com/arf1e/team-5-express/actions/workflows/node.yml)
+
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
 In this project we use Express.js to implement a basic Library API.
+
+## Getting started
+
+- Clone this project using `git clone https://github.com/arf1e/team-5-express.git` command;
+- Install the project dependencies with `pnpm install`;
+- Setup the database with `pnpm init-db` command;
+- Run the project in dev mode with `pnpm dev`.
 
 ## Team 5
 

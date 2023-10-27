@@ -8,6 +8,13 @@
 
 In this project we use Express.js to implement a basic Library API.
 
+## Table of content
+
+- [Getting started](#getting-started)
+- [Team 5](#team-5)
+- [CRUD Operations](#crud-operations)
+- [Error Handling and Logging](#error-handling-and-logging)
+
 ## Getting started
 
 - Clone this project using `git clone https://github.com/arf1e/team-5-express.git` command;
@@ -17,47 +24,53 @@ In this project we use Express.js to implement a basic Library API.
 
 ## Team 5
 
-- [Quang Tri Cao](https://github.com/quangtricao)
-- [Elizaveta Pashkovskaya](https://github.com/elis1386)
-- [Thuy Hien Tran Nguyen](https://github.com/JuliaThTranNguyen)
-- [Egor Bulgakov](https://github.com/arf1e)
+- [Quang Tri Cao](https://github.com/quangtricao) - Genres
+- [Elizaveta Pashkovskaya](https://github.com/elis1386) - Authors
+- [Thuy Hien Tran Nguyen](https://github.com/JuliaThTranNguyen) - Users
+- [Egor Bulgakov](https://github.com/arf1e) - Books
 
-## Basic CRUD Operations
+## CRUD Operations
 
-**Books OR Products:**
+Prefix the following with `/api/v1/`:
 
-1. Create a new (book or product)
-2. Get a list of all (book or product)s
-3. Get a book by ISBN or product by ID
-4. Update (book or product) information
-5. Delete a (book or product)
+**Books:**
 
-**Authors OR Catgegories:**
+1. Create a new (book or product) `POST /books`
+2. Get a list of all (book or product) `GET /books`
+3. Get a book by ISBN `GET /books/{isbn}`
+4. Update (book or product) information `PUT /books/{isbn}`
+5. Delete a (book or product) `DELETE /books/{isbn}`
 
-1. Create a new (author or category)
-2. Get a list of all (author or category)s
-3. Get an (author or category) by ID
-4. Update (author or category) information
-5. Delete an (author or category)
+**Genres:**
+
+1. Create a new genre `POST /genres`
+2. Get a list of all genres `GET /genres`
+3. Get a genre by ID `GET /genres/{genreId}`
+4. Update genre information `PUT /genres/{genreId}`
+5. Delete a genre `DELETE /genres/{genreId}`
+
+**Authors:**
+
+1. Create a new author `POST /authors`
+2. Get a list of all authors `GET /authors`
+3. Get an author by ID `GET /authors/{authorId}`
+4. Update author information `PUT /authors/{authorId}`
+5. Delete an author `DELETE /authors/${authorId}`
 
 **Users:**
 
-1. Create a new user
-2. Get a list of all users
-3. Get a user by ID
-4. Update user information
-5. Delete a user
+1. Create a new user `POST /users`
+2. Get a list of all users `GET /users`
+3. Get a user by ID `GET /users/{userId}`
+4. Update user information `PUT /users/{userId}`
+5. Delete a user `DELETE /users/{userId}`
 
 ## Error Handling and Logging
 
-Implement these routes and associated error handling and logging mechanisms in your Express.js application.
-
-**Types of error handlers:**
-
-1. Errors for 4xx and 5xx code statuses
-2. Global Error
+- [x] Errors for 4xx and 5xx code statuses
+- [x] Global Error
 
 **Logging middlware:**
 
-1. log every incoming request
-2. monitor status of your application. when entities are created ie, user is created
+- [x] Log every incoming request (We use morgan);
+- [x] Monitor status of your application. when entities are created ie, user is created.

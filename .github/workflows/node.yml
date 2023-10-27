@@ -1,6 +1,6 @@
 ---
 name: Node.js Lint & Build
-on: [pull_request]
+on: [pull_request, push]
 jobs:
   lint-and-build:
     runs-on: ubuntu-latest

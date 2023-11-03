@@ -1,76 +1,35 @@
-# ExpressJS
+# Backend Assignment - API
 
-[![Node.js Lint & Build](https://github.com/arf1e/team-5-express/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com/arf1e/team-5-express/actions/workflows/node.yml)
+This is the README for an Express backend assignment that requires you to implement the REST APIs for a library management system or E-commerce based on the Entity-Relationship Diagram (ERD) assignment. The ERD assignment should outline the data model, including the relationships and attributes of entities within the system. You are tasked with designing and documenting the REST APIs according to the ERD specifications.
 
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+## Introduction
 
-In this project we use Express.js to implement a basic Library API.
+This Express backend assignment involves building a RESTful API for a library management system or E-commerce. You are provided with an Entity-Relationship Diagram (ERD) assignment that outlines the data model, including the relationships and attributes of entities such as books, users, authors, and admin roles.
 
-## Table of content
+## Entity CRUD Operations
 
-- [Getting started](#getting-started)
-- [Team 5](#team-5)
-- [CRUD Operations](#crud-operations)
-- [Error Handling and Logging](#error-handling-and-logging)
+`Before` implementing JWT authentication, `you are required to create the basic CRUD` (Create, Read, Update, Delete) operations for the entities based on the specifications provided in the ERD assignment. This section focuses on designing and implementing the core functionality to manage and interact with the specified entities.
 
-## Getting started
+## Authentication
 
-- Clone this project using `git clone https://github.com/arf1e/team-5-express.git` command;
-- Install the project dependencies with `pnpm install`;
-- Setup the database with `pnpm init-db` command;
-- Run the project in dev mode with `pnpm dev`.
+For security, this API should implement user authentication using JSON Web Tokens (JWT). Each user should have a unique username and password OR broker authentication. Certain admin endpoints may require special privileges for access.
 
-## Team 5
+## Minimum requirements
 
-- [Quang Tri Cao](https://github.com/quangtricao) - Genres
-- [Elizaveta Pashkovskaya](https://github.com/elis1386) - Authors
-- [Thuy Hien Tran Nguyen](https://github.com/JuliaThTranNguyen) - Users
-- [Egor Bulgakov](https://github.com/arf1e) - Books
+Please check the REST API slides where you can find the minimum requirements of the project.
 
-## CRUD Operations
+## Response Format
 
-Prefix the following with `/api/v1/`:
+All API responses should be provided in JSON format. A typical response should include a `status`, `data`, and an optional `message` field. The `status` field should indicate the success or failure of the request.
 
-**Books:**
+## Error Handling
 
-1. Create a new (book or product) `POST /books`
-2. Get a list of all (book or product) `GET /books`
-3. Get a book by ISBN `GET /books/{isbn}`
-4. Update (book or product) information `PUT /books/{isbn}`
-5. Delete a (book or product) `DELETE /books/{isbn}`
+The API should include comprehensive error handling with clear and informative error messages. Errors should be accompanied by appropriate HTTP status codes.
 
-**Genres:**
+## Testing
 
-1. Create a new genre `POST /genres`
-2. Get a list of all genres `GET /genres`
-3. Get a genre by ID `GET /genres/{genreId}`
-4. Update genre information `PUT /genres/{genreId}`
-5. Delete a genre `DELETE /genres/{genreId}`
+Developers should conduct unit tests and integration tests to ensure the reliability and correctness of the API. Instructions for running the tests should be provided in the project's documentation.
 
-**Authors:**
+## Deployment
 
-1. Create a new author `POST /authors`
-2. Get a list of all authors `GET /authors`
-3. Get an author by ID `GET /authors/{authorId}`
-4. Update author information `PUT /authors/{authorId}`
-5. Delete an author `DELETE /authors/${authorId}`
-
-**Users:**
-
-1. Create a new user `POST /users`
-2. Get a list of all users `GET /users`
-3. Get a user by ID `GET /users/{userId}`
-4. Update user information `PUT /users/{userId}`
-5. Delete a user `DELETE /users/{userId}`
-
-## Error Handling and Logging
-
-- [x] Errors for 4xx and 5xx code statuses
-- [x] Global Error
-
-**Logging middlware:**
-
-- [x] Log every incoming request (We use morgan);
-- [x] Monitor status of your application. when entities are created ie, user is created.
+The API should be deployed before the **`DEADLINE`** which is end of Week 47 24th of Nov

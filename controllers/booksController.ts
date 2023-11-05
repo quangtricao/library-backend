@@ -18,20 +18,14 @@ async function getBookByIsbn(req: Request<{ isbn: string }>, res: Response) {
   res.status(200).json(book);
 }
 
-async function createBook(
-  req: Request<unknown, unknown, BookDto>,
-  res: Response
-) {
+async function createBook(req: Request<unknown, unknown, BookDto>, res: Response) {
   const bookDto = req.body;
   const newBook = await BooksService.createOne(bookDto);
   StatusLogger.created('books', newBook.id);
   res.status(201).json(newBook);
 }
 
-async function updateBookByIsbn(
-  req: Request<{ isbn: string }, unknown, BookDto>,
-  res: Response
-) {
+async function updateBookByIsbn(req: Request<{ isbn: string }, unknown, BookDto>, res: Response) {
   const { isbn } = req.params;
   const bookDto = req.body;
   const updatedBook = await BooksService.updateOne(isbn, bookDto);

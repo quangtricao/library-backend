@@ -8,15 +8,7 @@ export const BookDtoSchema = z.object({
   image: z
     .string({ required_error: 'Please provide image' })
     .url('Please provide a somewhat valid url.'),
-  authors: z
-    .array(z.string(), {
-      required_error: 'Please provide authors. Example: ["author-1"]',
-    })
-    .min(1, 'Please provide at least one author.'),
-  publisher: z
-    .string({ required_error: 'Please provide publisher' })
-    .min(2)
-    .max(100),
+  publisher: z.string({ required_error: 'Please provide publisher' }).min(2).max(100),
   publishedDate: z
     .string({ required_error: 'Please provide publishedDate' })
     .regex(DATE_REGEXP, 'Please provide a valid date. Example: 2021-01-01'),
@@ -24,17 +16,11 @@ export const BookDtoSchema = z.object({
   borrowerId: z.string().optional(),
   borrowDate: z
     .string()
-    .regex(
-      DATE_REGEXP,
-      'Please provide a valid borrowDate. Example: 2021-01-01'
-    )
+    .regex(DATE_REGEXP, 'Please provide a valid borrowDate. Example: 2021-01-01')
     .optional(),
   returnDate: z
     .string()
-    .regex(
-      DATE_REGEXP,
-      'Please provide a valid returnDate. Example: 2021-01-01'
-    )
+    .regex(DATE_REGEXP, 'Please provide a valid returnDate. Example: 2021-01-01')
     .optional(),
 });
 

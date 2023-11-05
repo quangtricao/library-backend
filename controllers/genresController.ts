@@ -30,6 +30,9 @@ const updateGenre = async (req: Request, res: Response) => {
   const body = req.body as GenreDTO;
 
   const updatedGenre = await genreService.update(id, body);
+  if (!updatedGenre) {
+    throw ApiError.resourceNotFound('Genre not exits');
+  }
   res.status(200).json(updatedGenre);
 };
 

@@ -21,17 +21,12 @@ const createOne = async (userDto: UserDto) => {
 };
 
 const updateOne = async (id: string, userDto: UserDto) => {
-try {
   const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
 
   if (!updatedUser) {
     throw ApiError.resourceNotFound('User ID not found');
   }
-
   return updatedUser;
-} catch (error: unknown) {
-    throw ApiError.internal('Internal Server Error', error);
-}
 };
 
 const deleteOne = async (id: string) => {

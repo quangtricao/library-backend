@@ -1,42 +1,39 @@
-import {
-  getCollection,
-  getItemById,
-  createItem,
-  updateItemById,
-  deleteItemById,
-} from '../db/tools';
+import { GenreDTO } from '../types/genres';
+import GenreModel from '../models/Genre';
+import { ApiError } from '../errors/ApiError';
 
-import { GenreDTO, GenreType } from '../types/genres';
-
-const getAll = async (): Promise<GenreType[]> => {
-  const gernes = await getCollection('genres');
+const getAll = async () => {
+  const gernes = await GenreModel.find();
   return gernes;
 };
 
-const getOne = async (id: string): Promise<GenreType | undefined> => {
-  const foundGenre = await getItemById('genres', id);
-  return foundGenre;
+const getOne = async (id: string) => {
+  const genre = await GenreModel.findById(id);
+  if (!genre) {
+    throw ApiError.resourceNotFound('Genre not exits');
+  }
+  return genre;
 };
 
-const create = async (genre: GenreDTO): Promise<GenreType> => {
-  const newGenre = await createItem('genres', genre);
-  return newGenre;
+const create = async (genre: GenreDTO) => {
+  const newGenre = new GenreModel(genre);
+  const savedGenre = await newGenre.save();
+  return savedGenre;
 };
 
-const update = async (id: string, genre: GenreDTO): Promise<GenreType> => {
-  const updatedGenre = await updateItemById('genres', id, genre);
+const update = async (id: string, genre: GenreDTO) => {
+  // By default, findByIdAndUpdate will return the document before the update was applied.
+  const updatedGenre = await GenreModel.findByIdAndUpdate(id, genre, {
+    returnDocument: 'after',
+  });
+  if (!updatedGenre) {
+    throw ApiError.resourceNotFound('Genre not exits');
+  }
   return updatedGenre;
 };
 
-const remove = async (id: string): Promise<boolean> => {
-  await deleteItemById('genres', id);
-  return true;
+const remove = async (id: string) => {
+  await GenreModel.findByIdAndDelete(id);
 };
 
-export default {
-  getAll,
-  getOne,
-  create,
-  update,
-  remove,
-};
+export default { getAll, getOne, create, update, remove };

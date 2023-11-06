@@ -11,7 +11,7 @@ export type UserType = Document & {
   image: string;
 };
 
-const userSchema = new mongoose.Schema<UserType>({
+const UserSchema = new mongoose.Schema<UserType>({
 
   username: {
     type: String,
@@ -60,6 +60,6 @@ const userSchema = new mongoose.Schema<UserType>({
   },
 });
 
-const userModel = mongoose.model<UserType>('User', userSchema);
+const UserModel = mongoose.model<UserType>('User', UserSchema);
 
-export default userModel;
+export default UserModel;

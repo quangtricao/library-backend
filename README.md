@@ -24,7 +24,7 @@ This is the README for an Express backend assignment that requires you to implem
 
 ## Getting started
 
-- Clone this project using `git clone https://github.com/arf1e/team-5-express.git` command;
+- Clone this project using `git clone git@github.com:arf1e/team-5-backend.git` command;
 - Install the project dependencies with `pnpm install`;
 - Setup the database with `pnpm init-db` command;
 - Run the project in dev mode with `pnpm dev`.

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import BooksService from '../services/booksService';
 import StatusLogger from '../utils/statusLogger';
-import { ApiError } from '../errors/ApiError';
 import { BookDto } from '../types/books';
 
 async function getAllBooks(_req: Request, res: Response) {
@@ -12,9 +11,6 @@ async function getAllBooks(_req: Request, res: Response) {
 async function getBookByIsbn(req: Request<{ isbn: string }>, res: Response) {
   const { isbn } = req.params;
   const book = await BooksService.findOne(isbn);
-  if (!book) {
-    throw ApiError.resourceNotFound('Book not found');
-  }
   res.status(200).json(book);
 }
 

@@ -1,7 +1,6 @@
 import { UserDto } from '../types/users';
 import userModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
-import { Error } from 'mongoose';
 
 const findAll = async () => {
   const users = await userModel.find();
@@ -40,10 +39,7 @@ try {
   const errorMessage = 'Internal error - This email is already in use';
     throw ApiError.internal(errorMessage, error);
 }
-    
 };
-
-
 
 const deleteOne = async (id: string) => {
   const deleteUser = await userModel.findById(id);

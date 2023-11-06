@@ -9,6 +9,9 @@ async function findAll() {
 
 async function findOne(isbn: string) {
   const book = await Book.findByIsbn(isbn);
+  if (!book) {
+    throw ApiError.resourceNotFound('Book not found');
+  }
   return book;
 }
 
@@ -26,11 +29,7 @@ async function updateOne(isbn: string, bookDto: BookDto) {
 }
 
 async function deleteOne(isbn: string) {
-  const book = await Book.findByIsbn(isbn);
-  if (!book) {
-    throw ApiError.resourceNotFound('Book not found');
-  }
-  await book.deleteOne();
+  await Book.findOneAndDelete({ isbn });
 }
 
 export default {

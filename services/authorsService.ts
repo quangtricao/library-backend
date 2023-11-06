@@ -1,31 +1,31 @@
-import {
-  getCollection,
-  createItem,
-  updateItemById,
-  deleteItemById,
-  getItemById,
-} from '../db/tools';
 import { AuthorType } from '../types/authors';
+import Author from '../models/Author';
+import { ApiError } from '../errors/ApiError';
 
-export const getAll = async () => {
-  const authors = await getCollection('authors');
+const getAll = async () => {
+  const authors = await Author.find();
   return authors;
 };
-export const createNewAuthor = async (newAuthor: AuthorType) => {
-  await createItem('authors', newAuthor);
+const createNewAuthor = async (newAuthor: AuthorType) => {
+  await Author.create(newAuthor);
   return newAuthor;
 };
 
-export const getById = async (authorId: string) => {
-  const author = await getItemById('authors', authorId);
+const getById = async (authorId: string) => {
+  const author = await Author.findById(authorId);
+  if (!author) {
+    throw ApiError.resourceNotFound('Author not found');
+  }
   return author;
 };
 
-export const updateById = async (authorId: string, author: AuthorType) => {
-  const updatedAuthor = await updateItemById('authors', authorId, author);
+const updateById = async (authorId: string, author: AuthorType) => {
+  const updatedAuthor = await Author.findByIdAndUpdate(authorId, author);
   return updatedAuthor;
 };
 
-export const deleteById = async (authorsId: string) => {
-  await deleteItemById('authors', authorsId);
+const deleteById = async (authorsId: string) => {
+  await Author.findByIdAndDelete(authorsId);
 };
+
+export default { getAll, createNewAuthor, getById, updateById, deleteById };

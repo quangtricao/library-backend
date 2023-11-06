@@ -1,34 +1,40 @@
-import {
-  deleteItemById,
-  getCollection,
-  getItemById,
-  updateItemById,
-} from '../db/tools';
-import { createUser } from '../db/users';
 import { UserDto } from '../types/users';
+import UserModel from '../models/User';
+import { ApiError } from '../errors/ApiError';
 
 const findAll = async () => {
-  const users = await getCollection('users');
+  const users = await UserModel.find();
   return users;
 };
 
 const findOne = async (id: string) => {
-  const user = await getItemById('users', id);
+  const user = await UserModel.findById(id);
+  if (!user) {
+    throw ApiError.resourceNotFound('User not found');
+  }
   return user;
 };
 
 const createOne = async (userDto: UserDto) => {
-  const user = await createUser(userDto);
+  const user = await UserModel.create(userDto);
   return user;
 };
 
 const updateOne = async (id: string, userDto: UserDto) => {
-  const updatedUser = await updateItemById('users', id, userDto);
+  const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
+
+  if (!updatedUser) {
+    throw ApiError.resourceNotFound('User ID not found');
+  }
   return updatedUser;
 };
 
 const deleteOne = async (id: string) => {
-  await deleteItemById('users', id);
+  const deleteUser = await UserModel.findById(id);
+  if (!deleteUser) {
+    throw ApiError.resourceNotFound('User ID not found');
+  }
+  await deleteUser.deleteOne();
 };
 
 export default {

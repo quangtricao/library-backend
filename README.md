@@ -2,6 +2,41 @@
 
 This is the README for an Express backend assignment that requires you to implement the REST APIs for a library management system or E-commerce based on the Entity-Relationship Diagram (ERD) assignment. The ERD assignment should outline the data model, including the relationships and attributes of entities within the system. You are tasked with designing and documenting the REST APIs according to the ERD specifications.
 
+[![Node.js Lint & Build](https://github.com/arf1e/team-5-express/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com/arf1e/team-5-express/actions/workflows/node.yml)
+
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+------------------------------------------------------------------------------
+## Table of content
+
+- [Getting started](#getting-started)
+- [Team 5](#team-5)
+- [Introduction](#introduction)
+- [Entity CRUD Operations](#entity-crud-operations)
+- [Authentication](#authentication)
+- [Minimun requirements](#minimum-requirements)
+- [Response Format](#response-format)
+- [Error Handling](#error-handling)
+- [Testing](#testing)
+- [Deployment](#deployment)
+
+## Getting started
+
+- Clone this project using `git clone https://github.com/arf1e/team-5-express.git` command;
+- Install the project dependencies with `pnpm install`;
+- Setup the database with `pnpm init-db` command;
+- Run the project in dev mode with `pnpm dev`.
+
+## Team 5
+
+- [Quang Tri Cao](https://github.com/quangtricao) - Genres
+- [Elizaveta Pashkovskaya](https://github.com/elis1386) - Authors
+- [Thuy Hien Tran Nguyen](https://github.com/JuliaThTranNguyen) - Users
+- [Egor Bulgakov](https://github.com/arf1e) - Books
+
+
 ## Introduction
 
 This Express backend assignment involves building a RESTful API for a library management system or E-commerce. You are provided with an Entity-Relationship Diagram (ERD) assignment that outlines the data model, including the relationships and attributes of entities such as books, users, authors, and admin roles.

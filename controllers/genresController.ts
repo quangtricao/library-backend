@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 
 import genreService from '../services/genresService';
 import { GenreDTO } from '../types/genres';
-import { ApiError } from '../errors/ApiError';
 
 const getAllGenre = async (_req: Request, res: Response) => {
   const genreInDB = await genreService.getAll();
@@ -12,9 +11,6 @@ const getAllGenre = async (_req: Request, res: Response) => {
 const getOneGenre = async (req: Request, res: Response) => {
   const id = req.params.id;
   const foundGenre = await genreService.getOne(id);
-  if (!foundGenre) {
-    throw ApiError.resourceNotFound('Genre not exits');
-  }
   res.status(200).json(foundGenre);
 };
 
@@ -30,9 +26,6 @@ const updateGenre = async (req: Request, res: Response) => {
   const body = req.body as GenreDTO;
 
   const updatedGenre = await genreService.update(id, body);
-  if (!updatedGenre) {
-    throw ApiError.resourceNotFound('Genre not exits');
-  }
   res.status(200).json(updatedGenre);
 };
 

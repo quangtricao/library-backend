@@ -1,5 +1,6 @@
 import { GenreDTO } from '../types/genres';
 import GenreModel from '../models/Genre';
+import { ApiError } from '../errors/ApiError';
 
 const getAll = async () => {
   const gernes = await GenreModel.find();
@@ -8,6 +9,9 @@ const getAll = async () => {
 
 const getOne = async (id: string) => {
   const genre = await GenreModel.findById(id);
+  if (!genre) {
+    throw ApiError.resourceNotFound('Genre not exits');
+  }
   return genre;
 };
 
@@ -22,6 +26,9 @@ const update = async (id: string, genre: GenreDTO) => {
   const updatedGenre = await GenreModel.findByIdAndUpdate(id, genre, {
     returnDocument: 'after',
   });
+  if (!updatedGenre) {
+    throw ApiError.resourceNotFound('Genre not exits');
+  }
   return updatedGenre;
 };
 

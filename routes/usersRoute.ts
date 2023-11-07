@@ -7,26 +7,14 @@ import { validateUserDtoInput } from '../middlewares/usersValidator';
 export const userRouter = express.Router();
 
 userRouter.get('/', passThrowsToMiddleware(UsersController.getAllUsers));
-userRouter.get(
-  '/:id',
-  validateId('users'),
-  passThrowsToMiddleware(UsersController.getUserById)
-);
-userRouter.post(
-  '/',
-  validateUserDtoInput,
-  passThrowsToMiddleware(UsersController.createUser)
-);
+userRouter.get('/:id', validateId, passThrowsToMiddleware(UsersController.getUserById));
+userRouter.post('/', validateUserDtoInput, passThrowsToMiddleware(UsersController.createUser));
 userRouter.put(
   '/:id',
-  validateId('users'),
+  validateId,
   validateUserDtoInput,
   passThrowsToMiddleware(UsersController.updateUserById)
 );
-userRouter.delete(
-  '/:id',
-  validateId('users'),
-  passThrowsToMiddleware(UsersController.deleteUserById)
-);
+userRouter.delete('/:id', validateId, passThrowsToMiddleware(UsersController.deleteUserById));
 
 export default userRouter;

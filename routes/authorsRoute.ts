@@ -15,16 +15,8 @@ export const authorsRouter = express.Router();
 authorsRouter.use(errorLoggingMiddleware);
 
 authorsRouter.get('/', passThrowsToMiddleware(getAllAuthors));
-authorsRouter.post(
-  '/',
-  authorsValidator.validateAuthorInput,
-  passThrowsToMiddleware(createAuthor)
-);
-authorsRouter.get(
-  '/:id',
-  authorsValidator.authorIdValidate,
-  passThrowsToMiddleware(getAuthorById)
-);
+authorsRouter.post('/', authorsValidator.validateAuthorInput, passThrowsToMiddleware(createAuthor));
+authorsRouter.get('/:id', authorsValidator.authorIdValidate, passThrowsToMiddleware(getAuthorById));
 authorsRouter.put(
   '/:id',
   authorsValidator.validateAuthorInput,

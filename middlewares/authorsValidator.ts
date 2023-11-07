@@ -2,13 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import { AuthorDtoSchema } from '../schemas/authors';
 import { validateId } from './idValidator';
 
-const authorIdValidate = validateId('authors');
+const authorIdValidate = validateId;
 
-async function validateAuthorInput(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+async function validateAuthorInput(req: Request, res: Response, next: NextFunction) {
   try {
     await AuthorDtoSchema.parseAsync(req.body);
     next();

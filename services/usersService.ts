@@ -67,11 +67,6 @@ const borrowBook = async (id: string, isbns: string[]) => {
 
   return borrowedIsbns;
 };
-// const borrowMultiBooks = async (id: string, isbns: string[]) => {
-//   const borrowedIsbns = await borrowBook(id, isbns);
-//   return borrowedIsbns;
-// };
-
 
 const returnBook = async (id: string, isbns: string[]): Promise<string[]> => {
   const user = await UserModel.findById(id);
@@ -115,5 +110,4 @@ export default {
   deleteOne,
   borrowBook,
   returnBook,
-  //borrowMultiBooks,
 };

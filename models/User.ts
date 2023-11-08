@@ -1,7 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
 export type UserType = Document & {
-  
   username: string;
   role: 'user' | 'admin';
   password: string;
@@ -12,7 +11,6 @@ export type UserType = Document & {
 };
 
 const UserSchema = new mongoose.Schema<UserType>({
-
   username: {
     type: String,
     required: true,

@@ -17,4 +17,7 @@ userRouter.put(
 );
 userRouter.delete('/:id', validateId, passThrowsToMiddleware(UsersController.deleteUserById));
 
+userRouter.post('/:id/borrow', validateId, passThrowsToMiddleware(UsersController.borrowBooks));
+userRouter.post('/:id/return', validateId, passThrowsToMiddleware(UsersController.returnBooks));
+
 export default userRouter;

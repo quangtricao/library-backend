@@ -1,6 +1,15 @@
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
+import BookAuthor from '../models/BookAuthor';
 import { BookDto } from '../types/books';
+
+async function assignAuthorsToBook(bookId: string, authors: string[]) {
+  const bookAuthors = authors.map((authorId) => ({
+    bookId,
+    authorId,
+  }));
+  await BookAuthor.insertMany(bookAuthors);
+}
 
 async function findAll() {
   const books = await Book.find();
@@ -17,6 +26,9 @@ async function findOne(isbn: string) {
 
 async function createOne(bookDto: BookDto) {
   const newBook = await Book.create(bookDto);
+  if (bookDto.authors) {
+    await assignAuthorsToBook(newBook.id, bookDto.authors);
+  }
   return newBook;
 }
 

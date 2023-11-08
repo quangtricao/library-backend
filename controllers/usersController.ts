@@ -45,7 +45,7 @@ async function borrowBooks(req: Request<{ id: string }>, res: Response) {
   const { id } = req.params;
   const { isbns } = req.body;
   try {
-    const borrowedIsbns = await UsersService.borrowMultiBooks(id, isbns);
+    const borrowedIsbns = await UsersService.borrowBook(id, isbns);
     res.status(200).json(borrowedIsbns);
   } catch (error) {
     throw ApiError.badRequest(`${error}`);
@@ -66,8 +66,6 @@ async function returnBooks(req: Request<{ id: string }>, res: Response) {
       res.json(error);
   }
 }
-
-
 
 export default {
   getAllUsers,

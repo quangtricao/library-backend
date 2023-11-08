@@ -38,57 +38,16 @@ const deleteOne = async (id: string) => {
   await deleteUser.deleteOne();
 };
 
-const borrowBook = async (id: string, isbns: string[]) => {
-  const user = await UserModel.findById(id);
-  if (!user) {
-    throw ApiError.resourceNotFound('User not found.');
-  }
-
-  const borrowedIsbns: string[] = [];
-
-  for (const isbn of isbns) {
-    const book = await Book.findOne({ isbn: isbn, status: 'available' });
-    if (book) {
-      const RETURN_DAYS = 30;
-      const borrow_Date = new Date();
-      const return_Date = new Date();
-      return_Date.setDate(borrow_Date.getDate() + RETURN_DAYS);
-
-      book.borrowerId = user.id;
-      book.status = 'borrowed';
-      book.borrowDate = borrow_Date;
-      book.returnDate = return_Date;
-      await book.save();
-      borrowedIsbns.push(isbn);
-    }
-  }
-
-  return borrowedIsbns;
+const borrowBooks = async (userId: string, bookIds: string[]) => {
+  const user = await findOne(userId); // TODO: Replace this logic with protection middleware later
+  const borrowedBooksIds = await Book.borrow(bookIds, user.id);
+  return borrowedBooksIds;
 };
 
-const returnBook = async (id: string, isbns: string[]) => {
-  const user = await UserModel.findById(id);
-  if (!user) {
-    throw ApiError.resourceNotFound('User not found.');
-  }
-
-  const returnedIsbns: string[] = [];
-
-  for (const isbn of isbns) {
-    const book = await Book.findOne({ isbn: isbn, status: 'borrowed', borrowerId: id });
-    if (!book) {
-      throw ApiError.badRequest("This book is not yours to return.");
-    }
-
-    await Book.updateOne(
-      { _id: book._id },
-      { $unset: { borrowerId: 1, borrowDate: 1, returnDate: 1 }, $set: { status: 'available' } }
-    );
-
-    returnedIsbns.push(isbn);
-  }
-
-  return returnedIsbns;
+const returnBooks = async (userId: string, bookIds: string[]) => {
+  const user = await findOne(userId);
+  const returnedBooksIds = await Book.return(bookIds, user.id);
+  return returnedBooksIds;
 };
 
 export default {
@@ -97,6 +56,6 @@ export default {
   createOne,
   updateOne,
   deleteOne,
-  borrowBook,
-  returnBook,
+  borrowBooks,
+  returnBooks,
 };

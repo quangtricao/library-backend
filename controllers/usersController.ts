@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import UsersService from '../services/usersService';
 import StatusLogger from '../utils/statusLogger';
 import { UserDto } from '../types/users';
+import { ApiError } from '../errors/ApiError';
 
 async function getAllUsers(_req: Request, res: Response) {
   const users = await UsersService.findAll();
@@ -40,17 +41,32 @@ async function deleteUserById(req: Request<{ id: string }>, res: Response) {
   res.status(204).end();
 }
 
-async function borrowBook(req: Request<{ id: string, isbn: string }>, res: Response) {
-  const {id, isbn} = req.params;
-  await UsersService.borrowBook(id, isbn);
-  res.status(200).send('Book borrowed Successfully.');
+async function borrowBooks(req: Request<{ id: string }>, res: Response) {
+  const { id } = req.params;
+  const { isbns } = req.body;
+  try {
+    const borrowedIsbns = await UsersService.borrowMultiBooks(id, isbns);
+    res.status(200).json(borrowedIsbns);
+  } catch (error) {
+    throw ApiError.badRequest(`${error}`);
+  }
 }
 
-async function returnBook(req: Request<{ id: string; isbn: string }>, res: Response) {
-  const { id, isbn } = req.params;
-  await UsersService.returnBook(id, isbn);
-  res.status(200).send('Book returned successfully');
+async function returnBooks(req: Request<{ id: string }>, res: Response) {
+  const { id } = req.params;
+  const { isbns } = req.body;
+  try {
+    const returnedIsbns = await UsersService.returnBook(id, isbns);
+    if (returnedIsbns.length > 0) {
+      res.status(200).json(returnedIsbns);
+    } else {
+      throw ApiError.badRequest('No valid books found for return.');
+    }
+  } catch (error) {
+      res.json(error);
+  }
 }
+
 
 
 export default {
@@ -59,6 +75,6 @@ export default {
   createUser,
   updateUserById,
   deleteUserById,
-  borrowBook,
-  returnBook,
+  borrowBooks,
+  returnBooks,
 };

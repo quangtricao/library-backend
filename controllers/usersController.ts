@@ -37,15 +37,15 @@ async function deleteUserById(req: Request<{ id: string }>, res: Response) {
 async function borrowBooks(req: Request<{ id: string }, string[]>, res: Response) {
   const { id } = req.params;
   const bookIds = req.body;
-  const response = await UsersService.borrowBooks(id, bookIds);
-  res.status(200).send(response);
+  const borrowedBooksIds = await UsersService.borrowBooks(id, bookIds);
+  res.status(200).send(borrowedBooksIds);
 }
 
 async function returnBooks(req: Request<{ id: string }, string[]>, res: Response) {
   const { id } = req.params;
   const bookIds = req.body;
-  const response = await UsersService.returnBooks(id, bookIds);
-  res.status(200).send(response);
+  const returnedBooksIds = await UsersService.returnBooks(id, bookIds);
+  res.status(200).send(returnedBooksIds);
 }
 
 export default {

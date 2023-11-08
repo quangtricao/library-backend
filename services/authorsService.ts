@@ -7,8 +7,9 @@ const getAll = async () => {
   return authors;
 };
 const createNewAuthor = async (newAuthor: AuthorType) => {
-  await Author.create(newAuthor);
-  return newAuthor;
+  const author = new Author(newAuthor);
+  await author.save();
+  return author;
 };
 
 const getById = async (authorId: string) => {
@@ -21,6 +22,9 @@ const getById = async (authorId: string) => {
 
 const updateById = async (authorId: string, author: AuthorType) => {
   const updatedAuthor = await Author.findByIdAndUpdate(authorId, author);
+  if (!author) {
+    throw ApiError.resourceNotFound('Author not found');
+  }
   return updatedAuthor;
 };
 

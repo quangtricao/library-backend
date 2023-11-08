@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Query } from 'mongoose';
 import Book from './Book';
 import _ from 'lodash';
 
@@ -36,8 +36,8 @@ authorSchema.set('toJSON', {
 });
 
 // Define it as a function so we can reuse it in multiple pre hooks.
-async function populateBooks(
-  this: mongoose.Query<any, any, {}, any, 'find'>,
+async function populateBooks<This extends Query<object, object, object, 'find'>>(
+  this: This,
   next: mongoose.CallbackWithoutResultAndOptionalError
 ) {
   // Because our initial virtual field only populates the content of the bridge table, we need to query Book to get the actual book data.

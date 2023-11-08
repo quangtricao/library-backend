@@ -54,12 +54,10 @@ const borrowBook = async (id: string, isbns: string[]) => {
       const return_Date = new Date();
       return_Date.setDate(borrow_Date.getDate() + RETURN_DAYS);
 
-      user.borrowedBooks.isbn.push(isbn);
       book.borrowerId = user.id;
       book.status = 'borrowed';
       book.borrowDate = borrow_Date;
       book.returnDate = return_Date;
-      await user.save();
       await book.save();
       borrowedIsbns.push(isbn);
     }
@@ -68,7 +66,7 @@ const borrowBook = async (id: string, isbns: string[]) => {
   return borrowedIsbns;
 };
 
-const returnBook = async (id: string, isbns: string[]): Promise<string[]> => {
+const returnBook = async (id: string, isbns: string[]) => {
   const user = await UserModel.findById(id);
   if (!user) {
     throw ApiError.resourceNotFound('User not found.');
@@ -77,19 +75,10 @@ const returnBook = async (id: string, isbns: string[]): Promise<string[]> => {
   const returnedIsbns: string[] = [];
 
   for (const isbn of isbns) {
-    const index: number = user.borrowedBooks.isbn.indexOf(isbn);
-    if (index === -1) {
-      throw ApiError.badRequest('You did not borrow this book.');
-    }
-
     const book = await Book.findOne({ isbn: isbn, status: 'borrowed', borrowerId: id });
     if (!book) {
       throw ApiError.badRequest("This book is not yours to return.");
     }
-    
-    user.borrowedBooks.isbn = user.borrowedBooks.isbn.filter(item => item !== isbn);
-
-    await user.save();
 
     await Book.updateOne(
       { _id: book._id },

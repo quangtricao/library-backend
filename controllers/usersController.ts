@@ -44,28 +44,27 @@ async function deleteUserById(req: Request<{ id: string }>, res: Response) {
 async function borrowBooks(req: Request<{ id: string }>, res: Response) {
   const { id } = req.params;
   const { isbns } = req.body;
+
   try {
     const borrowedIsbns = await UsersService.borrowBook(id, isbns);
     res.status(200).json(borrowedIsbns);
   } catch (error) {
-    throw ApiError.badRequest(`${error}`);
+    res.json(error);
   }
 }
 
 async function returnBooks(req: Request<{ id: string }>, res: Response) {
   const { id } = req.params;
   const { isbns } = req.body;
+
   try {
     const returnedIsbns = await UsersService.returnBook(id, isbns);
-    if (returnedIsbns.length > 0) {
-      res.status(200).json(returnedIsbns);
-    } else {
-      throw ApiError.badRequest('No valid books found for return.');
-    }
+    res.status(200).json(returnedIsbns);
   } catch (error) {
-      res.json(error);
+    res.json(error);
   }
 }
+
 
 export default {
   getAllUsers,

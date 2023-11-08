@@ -1,7 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
 export type UserType = Document & {
-  
   username: string;
   role: 'user' | 'admin';
   password: string;
@@ -9,10 +8,10 @@ export type UserType = Document & {
   lastName: string;
   email: string;
   image: string;
+  borrowedBooks: { isbn: string[] };
 };
 
 const UserSchema = new mongoose.Schema<UserType>({
-
   username: {
     type: String,
     required: true,
@@ -56,6 +55,12 @@ const UserSchema = new mongoose.Schema<UserType>({
         return urlRegex.test(v);
       },
       message: 'Invalid URL format',
+    },
+  },
+  borrowedBooks: {
+    isbn: {
+      type: [String],
+      default: [],
     },
   },
 });

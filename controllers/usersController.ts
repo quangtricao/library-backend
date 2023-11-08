@@ -40,10 +40,25 @@ async function deleteUserById(req: Request<{ id: string }>, res: Response) {
   res.status(204).end();
 }
 
+async function borrowBook(req: Request<{ id: string, isbn: string }>, res: Response) {
+  const {id, isbn} = req.params;
+  await UsersService.borrowBook(id, isbn);
+  res.status(200).send('Book borrowed Successfully.');
+}
+
+async function returnBook(req: Request<{ id: string; isbn: string }>, res: Response) {
+  const { id, isbn } = req.params;
+  await UsersService.returnBook(id, isbn);
+  res.status(200).send('Book returned successfully');
+}
+
+
 export default {
   getAllUsers,
   getUserById,
   createUser,
   updateUserById,
   deleteUserById,
+  borrowBook,
+  returnBook,
 };

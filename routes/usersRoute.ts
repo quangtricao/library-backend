@@ -3,6 +3,9 @@ import UsersController from '../controllers/usersController';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 import { validateId } from '../middlewares/idValidator';
 import { validateUserDtoInput } from '../middlewares/usersValidator';
+import UserModel from '../models/User';
+import { ApiError } from '../errors/ApiError';
+import Book from '../models/Book';
 
 export const userRouter = express.Router();
 
@@ -16,5 +19,8 @@ userRouter.put(
   passThrowsToMiddleware(UsersController.updateUserById)
 );
 userRouter.delete('/:id', validateId, passThrowsToMiddleware(UsersController.deleteUserById));
+
+userRouter.post('/:id/borrow/:isbn', validateId, passThrowsToMiddleware(UsersController.borrowBook));
+userRouter.post('/:id/return/:isbn', validateId, passThrowsToMiddleware(UsersController.returnBook));
 
 export default userRouter;

@@ -2,7 +2,6 @@ import { UserDto } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
-import booksService from './booksService';
 
 const findAll = async () => {
   const users = await UserModel.find();

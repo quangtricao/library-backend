@@ -8,7 +8,6 @@ export type UserType = Document & {
   lastName: string;
   email: string;
   image: string;
-  //borrowedBooks: { isbn: string[] };
 };
 
 const UserSchema = new mongoose.Schema<UserType>({
@@ -57,12 +56,6 @@ const UserSchema = new mongoose.Schema<UserType>({
       message: 'Invalid URL format',
     },
   },
-  // borrowedBooks: {
-  //   isbn: {
-  //     type: [String],
-  //     default: [],
-  //   },
-  // },
 });
 
 const UserModel = mongoose.model<UserType>('User', UserSchema);

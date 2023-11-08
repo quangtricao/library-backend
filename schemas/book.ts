@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { idSchema } from '../middlewares/idValidator';
 
 const DATE_REGEXP = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
 
@@ -22,6 +23,7 @@ export const BookDtoSchema = z.object({
     .string()
     .regex(DATE_REGEXP, 'Please provide a valid returnDate. Example: 2021-01-01')
     .optional(),
+  authors: z.array(idSchema).optional(),
 });
 
 export const BookIsbnParamSchema = z.object({

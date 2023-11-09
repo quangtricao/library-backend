@@ -7,7 +7,7 @@ import { loggingMiddleware } from './middlewares/logging';
 import { errorLoggingMiddleware } from './middlewares/error';
 import { connectMongoDB } from './config/mongoose';
 
-const PORT = 1337;
+const PORT = process.env.PORT ?? 1337;
 const app = express();
 
 connectMongoDB();

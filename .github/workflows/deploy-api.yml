@@ -21,4 +21,4 @@ jobs:
           cat .env.example | grep "DB_URL" >> .env
           echo "PORT=${{ secrets.PORT }}" >> .env
       - name: Restart PM2 process
-        run: pm2 restart library-api
+        run: pm2 restart library-api --silent

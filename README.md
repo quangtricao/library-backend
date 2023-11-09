@@ -3,12 +3,14 @@
 This is the README for an Express backend assignment that requires you to implement the REST APIs for a library management system or E-commerce based on the Entity-Relationship Diagram (ERD) assignment. The ERD assignment should outline the data model, including the relationships and attributes of entities within the system. You are tasked with designing and documenting the REST APIs according to the ERD specifications.
 
 [![Node.js Lint & Build](https://github.com/arf1e/team-5-backend/actions/workflows/node.yml/badge.svg)](https://github.com/arf1e/team-5-backend/actions/workflows/node.yml)
+[![Deployment](https://github.com/arf1e/team-5-backend/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/arf1e/team-5-backend/actions/workflows/deploy-api.yml)
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-------------------------------------------------------------------------------
+---
+
 ## Table of content
 
 - [Getting started](#getting-started)
@@ -25,8 +27,9 @@ This is the README for an Express backend assignment that requires you to implem
 ## Getting started
 
 - Clone this project using `git clone git@github.com:arf1e/team-5-backend.git` command;
+- Create your `.env` from `.env.example` either by hand or with `cp .env.example .env` (macOS/Linux/WSL);
+- Fill the `.env` file with your MongoDB cluster credentials;
 - Install the project dependencies with `pnpm install`;
-- Setup the database with `pnpm init-db` command;
 - Run the project in dev mode with `pnpm dev`.
 
 ## Team 5
@@ -35,7 +38,6 @@ This is the README for an Express backend assignment that requires you to implem
 - [Elizaveta Pashkovskaya](https://github.com/elis1386) - Authors
 - [Thuy Hien Tran Nguyen](https://github.com/JuliaThTranNguyen) - Users
 - [Egor Bulgakov](https://github.com/arf1e) - Books
-
 
 ## Introduction
 
@@ -67,4 +69,4 @@ Developers should conduct unit tests and integration tests to ensure the reliabi
 
 ## Deployment
 
-The API should be deployed before the **`DEADLINE`** which is end of Week 47 24th of Nov
+Access this project live [here](https://library.egorushque.space).

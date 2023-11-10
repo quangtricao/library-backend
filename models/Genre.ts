@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import _ from 'lodash';
-import { populateBooks } from './helper/populateBooks';
+import { populateBooks } from './helpers/populateBooks';
 
 const GenreSchema = new mongoose.Schema({
   title: {

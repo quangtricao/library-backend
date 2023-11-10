@@ -9,7 +9,7 @@ export async function populateBooks<This extends Query<object, object, object, '
 ) {
   // Because our initial virtual field only populates the content of the bridge table, we need to query Book to get the actual book data.
   this.populate({
-    path: 'books', // The virtual field on our authorSchema.
+    path: 'books', // The virtual field to populate books into.
     select: 'bookId', // The field on the bridge table that contains the book's id.
     populate: {
       path: 'bookId', // The field on the bridge table that contains the book's id. (Yes, the same as above.)

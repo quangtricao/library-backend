@@ -13,11 +13,11 @@ async function assignAuthorsToBook(bookId: string, authors: string[]) {
 }
 
 async function assignGenresToBook(bookId: string, genres: string[]) {
-  const bookAuthors = genres.map((genresId) => ({
+  const bookGenres = genres.map((genresId) => ({
     bookId,
     genresId,
   }));
-  await BookGenre.insertMany(bookAuthors);
+  await BookGenre.insertMany(bookGenres);
 }
 
 async function findAll() {

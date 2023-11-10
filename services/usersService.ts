@@ -25,7 +25,7 @@ const updateOne = async (id: string, userDto: UserDto) => {
   const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
 
   if (!updatedUser) {
-    throw ApiError.resourceNotFound('User ID not found');
+    throw ApiError.resourceNotFound('User not found');
   }
   return updatedUser;
 };
@@ -33,7 +33,7 @@ const updateOne = async (id: string, userDto: UserDto) => {
 const deleteOne = async (id: string) => {
   const deleteUser = await UserModel.findById(id);
   if (!deleteUser) {
-    throw ApiError.resourceNotFound('User ID not found');
+    throw ApiError.resourceNotFound('User not found');
   }
   await deleteUser.deleteOne();
 };

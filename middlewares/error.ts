@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-
+import mongoose from 'mongoose';
 import { ApiError } from '../errors/ApiError';
 
 export function errorLoggingMiddleware(
@@ -10,6 +10,16 @@ export function errorLoggingMiddleware(
 ) {
   if (error instanceof ApiError) {
     res.status(error.code).json({ msg: error.message });
+    return;
+  }
+
+  if (error instanceof mongoose.Error) {
+    res.status(400).json({ msg: error.message });
+    return;
+  }
+
+  if (error instanceof mongoose.mongo.MongoError) {
+    res.status(400).json({ msg: `Mongo: ${error.message}` });
     return;
   }
 

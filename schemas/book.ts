@@ -24,6 +24,7 @@ export const BookDtoSchema = z.object({
     .regex(DATE_REGEXP, 'Please provide a valid returnDate. Example: 2021-01-01')
     .optional(),
   authors: z.array(idSchema).optional(),
+  genres: z.array(idSchema).optional(),
 });
 
 export const BookIsbnParamSchema = z.object({

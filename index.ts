@@ -12,7 +12,7 @@ const app = express();
 
 connectMongoDB();
 
-// Body parser middleware for application/json (credits to Tri for the tip!)
+// Body parser middleware for application/json
 app.use(express.json());
 
 app.use(loggingMiddleware);

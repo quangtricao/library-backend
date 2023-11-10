@@ -1,18 +1,23 @@
 import express from 'express';
 import genreController from '../controllers/genresController';
-import { validateGenre } from '../middlewares/genreBodyValidate';
+import { validateGenreDtoInput } from '../middlewares/genresValidate';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 import { validateId } from '../middlewares/idValidator';
 
 export const genresRouter = express.Router();
 
+genresRouter.use('/:id', validateId);
+
 genresRouter.get('/', passThrowsToMiddleware(genreController.getAllGenre));
-genresRouter.get('/:id', validateId, passThrowsToMiddleware(genreController.getOneGenre));
-genresRouter.post('/', validateGenre, passThrowsToMiddleware(genreController.createGenre));
+genresRouter.get('/:id', passThrowsToMiddleware(genreController.getOneGenre));
+genresRouter.post(
+  '/',
+  validateGenreDtoInput,
+  passThrowsToMiddleware(genreController.createGenre)
+);
 genresRouter.put(
   '/:id',
-  validateId,
-  validateGenre,
+  validateGenreDtoInput,
   passThrowsToMiddleware(genreController.updateGenre)
 );
-genresRouter.delete('/:id', validateId, passThrowsToMiddleware(genreController.deleteGenre));
+genresRouter.delete('/:id', passThrowsToMiddleware(genreController.deleteGenre));

@@ -1,6 +1,7 @@
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import BookAuthor from '../models/BookAuthor';
+import BookGenre from '../models/BookGenre';
 import { BookDto } from '../types/books';
 
 async function assignAuthorsToBook(bookId: string, authors: string[]) {
@@ -9,6 +10,14 @@ async function assignAuthorsToBook(bookId: string, authors: string[]) {
     authorId,
   }));
   await BookAuthor.insertMany(bookAuthors);
+}
+
+async function assignGenresToBook(bookId: string, genres: string[]) {
+  const bookGenres = genres.map((genresId) => ({
+    bookId,
+    genresId,
+  }));
+  await BookGenre.insertMany(bookGenres);
 }
 
 async function findAll() {
@@ -28,6 +37,9 @@ async function createOne(bookDto: BookDto) {
   const newBook = await Book.create(bookDto);
   if (bookDto.authors) {
     await assignAuthorsToBook(newBook.id, bookDto.authors);
+  }
+  if (bookDto.genres) {
+    await assignGenresToBook(newBook.id, bookDto.genres);
   }
   return newBook;
 }

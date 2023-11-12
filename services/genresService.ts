@@ -1,6 +1,7 @@
 import { GenreDTO } from '../types/genres';
 import GenreModel from '../models/Genre';
 import { ApiError } from '../errors/ApiError';
+import BookGenre from '../models/BookGenre';
 
 const getAll = async () => {
   const gernes = await GenreModel.find();
@@ -13,6 +14,20 @@ const getOne = async (id: string) => {
     throw ApiError.resourceNotFound('Genre not exits');
   }
   return genre;
+};
+
+const getAllBooks = async (id: string) => {
+  const genre = await GenreModel.findById(id);
+  if (!genre) {
+    throw ApiError.resourceNotFound('Genre not exits');
+  }
+  const bookGenres = await BookGenre.find({ genreId: genre._id }).populate({
+    path: 'bookId',
+    model: 'Book',
+  });
+
+  const books = bookGenres.map((bookGenre) => bookGenre.bookId);
+  return books;
 };
 
 const create = async (genre: GenreDTO) => {
@@ -34,6 +49,7 @@ const update = async (id: string, genre: GenreDTO) => {
 
 const remove = async (id: string) => {
   await GenreModel.findByIdAndDelete(id);
+  await BookGenre.deleteMany({ genreId: id });
 };
 
-export default { getAll, getOne, create, update, remove };
+export default { getAll, getOne, getAllBooks, create, update, remove };

@@ -14,6 +14,12 @@ const getOneGenre = async (req: Request, res: Response) => {
   res.status(200).json(foundGenre);
 };
 
+const getAllBooksByGenre = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const allBooks = await genreService.getAllBooks(id);
+  res.status(200).json(allBooks);
+};
+
 const createGenre = async (req: Request, res: Response) => {
   const body = req.body as GenreDTO;
 
@@ -39,6 +45,7 @@ const deleteGenre = async (req: Request, res: Response) => {
 export default {
   getAllGenre,
   getOneGenre,
+  getAllBooksByGenre,
   createGenre,
   updateGenre,
   deleteGenre,

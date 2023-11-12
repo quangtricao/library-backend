@@ -19,7 +19,7 @@ export function errorLoggingMiddleware(
   }
 
   if (error instanceof mongoose.mongo.MongoError) {
-    res.status(400).json({ msg: `Mongo: ${error.message}` });
+    res.status(400).json({ msg: error.message  });
     return;
   }
 

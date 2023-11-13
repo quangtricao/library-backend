@@ -2,9 +2,11 @@ import { Request, Response } from 'express';
 import BooksService from '../services/booksService';
 import StatusLogger from '../utils/statusLogger';
 import { BookDto } from '../types/books';
+import { getFindAllBooksOptionsFromQuery } from '../utils/books';
 
-async function getAllBooks(_req: Request, res: Response) {
-  const books = await BooksService.findAll();
+async function getAllBooks(req: Request, res: Response) {
+  const options = await getFindAllBooksOptionsFromQuery(req.query); // TODO: Think of a way to get parsed/default query params from middleware, i.e. through req object mutation
+  const books = await BooksService.findAll(options);
   res.status(200).json(books); // explicit > implicit
 }
 

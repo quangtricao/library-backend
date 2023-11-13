@@ -5,7 +5,11 @@ import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 
 export const booksRouter = express.Router();
 
-booksRouter.get('/', passThrowsToMiddleware(BooksController.getAllBooks));
+booksRouter.get(
+  '/',
+  BooksValidator.validateBookPagination,
+  passThrowsToMiddleware(BooksController.getAllBooks)
+);
 booksRouter.get(
   '/:isbn',
   BooksValidator.validateBookIsbnParam,

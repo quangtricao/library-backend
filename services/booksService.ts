@@ -2,7 +2,8 @@ import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import BookAuthor from '../models/BookAuthor';
 import BookGenre from '../models/BookGenre';
-import { BookDto } from '../types/books';
+import { BookDto, FindAllBooksOptions } from '../types/books';
+import { mapPaginationToMongoose } from '../utils/mongoose';
 
 async function assignAuthorsToBook(bookId: string, authors: string[]) {
   const bookAuthors = authors.map((authorId) => ({
@@ -20,8 +21,9 @@ async function assignGenresToBook(bookId: string, genres: string[]) {
   await BookGenre.insertMany(bookGenres);
 }
 
-async function findAll() {
-  const books = await Book.find();
+async function findAll(options: FindAllBooksOptions) {
+  const pagination = mapPaginationToMongoose(options);
+  const books = await Book.find({}, {}, pagination);
   return books;
 }
 

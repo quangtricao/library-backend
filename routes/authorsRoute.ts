@@ -6,6 +6,7 @@ import {
   getAuthorById,
   updateAuthor,
   deleteAuthor,
+  getAuthorsBooks,
 } from '../controllers/authorsController';
 import { errorLoggingMiddleware } from '../middlewares/error';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
@@ -26,4 +27,9 @@ authorsRouter.delete(
   '/:id',
   authorsValidator.authorIdValidate,
   passThrowsToMiddleware(deleteAuthor)
+);
+authorsRouter.get(
+  '/:id/books',
+  authorsValidator.authorIdValidate,
+  passThrowsToMiddleware(getAuthorsBooks)
 );

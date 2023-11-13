@@ -5,6 +5,11 @@ export const getAllAuthors = async (_req: Request, res: Response) => {
   const authors = await AuthorsService.getAll();
   res.json(authors);
 };
+export const getAuthorsBooks = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const books = await AuthorsService.getBooksByAuthor(id);
+  res.status(200).json(books);
+};
 
 export const createAuthor = async (req: Request, res: Response) => {
   const createdAuthor = await AuthorsService.createNewAuthor(req.body);

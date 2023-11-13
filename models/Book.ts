@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import dayjs, { ManipulateType } from 'dayjs';
+import _ from 'lodash';
+import { populateAuthorsOptions, populateGenresOptions } from './helpers/books';
+import autopopulate from 'mongoose-autopopulate';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -124,5 +127,29 @@ const BookSchema = new Schema(
     },
   }
 );
+
+BookSchema.virtual('authors', {
+  ref: 'BookAuthor',
+  localField: '_id',
+  foreignField: 'bookId',
+  autopopulate: populateAuthorsOptions,
+});
+
+BookSchema.virtual('genres', {
+  ref: 'BookGenre',
+  localField: '_id',
+  foreignField: 'bookId',
+  autopopulate: populateGenresOptions,
+});
+
+BookSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_doc, returnedObject) => {
+    return _.omit(returnedObject, 'id');
+  },
+});
+
+// This plugin allows us to skip writing populate logic for all the possible operations' pre/post hooks.
+BookSchema.plugin(autopopulate);
 
 export default mongoose.model('Book', BookSchema);

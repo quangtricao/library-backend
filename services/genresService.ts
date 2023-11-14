@@ -7,12 +7,12 @@ import { PaginationType } from '../types/pagination';
 
 const getAll = async (title: string, pagination: PaginationType) => {
   const paginationOption = mapPaginationToMongoose(pagination);
-  const gernes = await GenreModel.find(
+  const genres = await GenreModel.find(
     { title: { $regex: title, $options: 'i' } },
     {},
     paginationOption
   );
-  return gernes;
+  return genres;
 };
 
 const getOne = async (id: string) => {

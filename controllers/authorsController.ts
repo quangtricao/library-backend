@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
 import AuthorsService from '../services/authorsService';
+import { AuthorFilters } from '../types/authors';
+import { getFindAllAuthorsOptionsFromQuery } from '../utils/authors';
 
-export const getAllAuthors = async (_req: Request, res: Response) => {
-  const authors = await AuthorsService.getAll();
+export const getAllAuthors = async (req: Request, res: Response) => {
+  const options = await getFindAllAuthorsOptionsFromQuery(req.query);
+  const authorName = req.query.name as AuthorFilters;
+
+  const authors = await AuthorsService.getAll(options, authorName);
   res.json(authors);
 };
+
 export const getAuthorsBooks = async (req: Request, res: Response) => {
   const id = req.params.id;
   const books = await AuthorsService.getBooksByAuthor(id);

@@ -6,7 +6,6 @@ import { getFindAllAuthorsOptionsFromQuery } from '../utils/authors';
 export const getAllAuthors = async (req: Request, res: Response) => {
   const options = await getFindAllAuthorsOptionsFromQuery(req.query);
   const authorName = req.query.name as AuthorFilters;
-
   const authors = await AuthorsService.getAll(options, authorName);
   res.json(authors);
 };

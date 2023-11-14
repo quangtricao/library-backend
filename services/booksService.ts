@@ -14,9 +14,9 @@ async function assignAuthorsToBook(bookId: string, authors: string[]) {
 }
 
 async function assignGenresToBook(bookId: string, genres: string[]) {
-  const bookGenres = genres.map((genresId) => ({
+  const bookGenres = genres.map((genreId) => ({
     bookId,
-    genresId,
+    genreId,
   }));
   await BookGenre.insertMany(bookGenres);
 }
@@ -36,13 +36,14 @@ async function findOne(isbn: string) {
 }
 
 async function createOne(bookDto: BookDto) {
-  const newBook = await Book.create(bookDto);
+  const newBook = new Book(bookDto);
   if (bookDto.authors) {
     await assignAuthorsToBook(newBook.id, bookDto.authors);
   }
   if (bookDto.genres) {
     await assignGenresToBook(newBook.id, bookDto.genres);
   }
+  await newBook.save();
   return newBook;
 }
 

@@ -7,7 +7,7 @@ export const booksRouter = express.Router();
 
 booksRouter.get(
   '/',
-  BooksValidator.validateBookPagination,
+  BooksValidator.validateBookOptions,
   passThrowsToMiddleware(BooksController.getAllBooks)
 );
 booksRouter.get(

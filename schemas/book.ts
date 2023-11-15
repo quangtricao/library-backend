@@ -30,3 +30,10 @@ export const BookDtoSchema = z.object({
 export const BookIsbnParamSchema = z.object({
   isbn: z.string({ required_error: 'Please provide ISBN' }),
 });
+
+export const BookFiltersSchema = z.object({
+  author: z.string().optional().default(''),
+  genre: z.string().optional().default(''),
+  title: z.string().optional().default(''),
+  status: BookDtoSchema.shape.status,
+});

@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 import dayjs, { ManipulateType } from 'dayjs';
 import _ from 'lodash';
-import { populateAuthorsOptions, populateGenresOptions } from './helpers/books';
+import {
+  composeAggregationFromOptions,
+  populateAuthorsOptions,
+  populateGenresOptions,
+} from './helpers/books';
 import autopopulate from 'mongoose-autopopulate';
+import { FindAllBooksOptions } from '../types/books';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -123,6 +128,19 @@ const BookSchema = new Schema(
         );
 
         return returnedBookIds;
+      },
+
+      /**
+       * Finds all books by the given options.
+       *
+       * @param options - Books Filters & Pagination options.
+       * @returns - The array of books that were found.
+       */
+      findAllByOptions: async function (options: FindAllBooksOptions) {
+        const aggregated = await this.aggregate(composeAggregationFromOptions(options));
+        const ids = aggregated.map((book) => book._id);
+        const books = await this.find({ _id: { $in: ids } }); // So the output would look good
+        return books;
       },
     },
   }

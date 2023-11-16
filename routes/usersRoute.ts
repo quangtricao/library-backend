@@ -7,10 +7,13 @@ import { checkAuth } from '../middlewares/checkAuth';
 
 export const userRouter = express.Router();
 
+// This can be refactored & turned into admin route
 userRouter.get('/', passThrowsToMiddleware(UsersController.getAllUsers));
 userRouter.get('/:id', checkAuth, validateId, passThrowsToMiddleware(UsersController.getUserById));
 
-userRouter.post('/', checkAuth, validateUserDtoInput, passThrowsToMiddleware(UsersController.createUser));
+userRouter.post('/login',checkAuth, passThrowsToMiddleware(UsersController.login));
+userRouter.post('/signup', validateUserDtoInput,checkAuth, passThrowsToMiddleware(UsersController.signup))
+
 userRouter.post('/:id/borrow', validateId, passThrowsToMiddleware(UsersController.borrowBooks));
 userRouter.post('/:id/return', validateId, passThrowsToMiddleware(UsersController.returnBooks));
 

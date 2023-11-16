@@ -2,6 +2,8 @@ import { UserDto } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 const findAll = async () => {
   const users = await UserModel.find();
@@ -16,17 +18,64 @@ const findOne = async (id: string) => {
   return user;
 };
 
-const createOne = async (userDto: UserDto) => {
-  const user = await UserModel.create(userDto);
-  return user;
+const findOneByEmail = async (email: string) => {
+  return UserModel.findOne({email});
 };
 
+const createOne = async (userDto: UserDto) => {
+  const existingUser = await findOneByEmail(userDto.email)
+  if(existingUser){
+    throw ApiError.badRequest('Email already in use.')
+  }
+  
+  const hashedPassword = bcrypt.hashSync(userDto.password, 12);
+  console.log("hashedPassword: ", hashedPassword)
+
+  const user = await UserModel.create({
+    ...userDto,
+    password: hashedPassword,
+  });
+  return user;
+}
+
+const login = async (email: string, password: string) => {
+  const user = await findOneByEmail(email);
+     
+  if(!user){
+    throw ApiError.forbidden('Bad credentials')
+  }
+  
+  const isValid = bcrypt.compareSync(password, user.password)
+
+  if(!isValid){
+    throw ApiError.forbidden('Bad credentials')
+  }
+
+  const payload = {
+    userId: user.id,
+    email: user.email,
+    role: user.role,
+  }
+  const accessToken = jwt.sign(payload, process.env.BASED64_SECRET as string, {expiresIn: "1h"})
+
+  return {
+    message: "Valid credentials", accessToken, status: true
+  }
+}
+
 const updateOne = async (id: string, userDto: UserDto) => {
+  if (userDto.password) {
+    const hashedPassword = bcrypt.hashSync(userDto.password, 12);
+    userDto.password = hashedPassword;
+  } 
+
   const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
 
   if (!updatedUser) {
     throw ApiError.resourceNotFound('User not found');
   }
+
+   
   return updatedUser;
 };
 
@@ -58,4 +107,5 @@ export default {
   deleteOne,
   borrowBooks,
   returnBooks,
+  login
 };

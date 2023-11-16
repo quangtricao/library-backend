@@ -1,8 +1,9 @@
 import mongoose, { Document } from 'mongoose';
+import { Role, role } from '../types/users'; 
 
 export type UserType = Document & {
   username: string;
-  role: 'user' | 'admin';
+  role: Role;
   password: string;
   firstName: string;
   lastName: string;
@@ -17,8 +18,8 @@ const UserSchema = new mongoose.Schema<UserType>({
   },
   role: {
     type: String,
-    enum: ['admin', 'user'],
-    default: 'user',
+    enum: [role.USER, role.ADMIN],
+    default: role.USER, 
     required: true,
   },
   password: {

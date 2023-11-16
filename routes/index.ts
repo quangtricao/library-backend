@@ -3,6 +3,7 @@ import { genresRouter } from './genresRoute';
 import userRouter from './usersRoute';
 import express from 'express';
 import { authorsRouter } from './authorsRoute';
+import authenRouter from './authenticationRoute';
 
 export const router = express.Router();
 
@@ -11,3 +12,4 @@ router.use('/books', booksRouter);
 router.use('/genres', genresRouter);
 router.use('/authors', authorsRouter);
 router.use('/users', userRouter);
+router.use('/account', authenRouter);

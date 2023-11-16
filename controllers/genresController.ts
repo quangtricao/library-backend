@@ -2,9 +2,14 @@ import { Request, Response } from 'express';
 
 import genreService from '../services/genresService';
 import { GenreDTO } from '../types/genres';
+import { getPaginationOptionsFromQuery } from '../utils/pagination';
+import { getTitleFromQuery } from '../utils/genres';
 
-const getAllGenre = async (_req: Request, res: Response) => {
-  const genreInDB = await genreService.getAll();
+const getAllGenre = async (req: Request, res: Response) => {
+  const title = await getTitleFromQuery(req.query);
+  const pagination = await getPaginationOptionsFromQuery(req.query);
+
+  const genreInDB = await genreService.getAll(title, pagination);
   res.status(200).json(genreInDB);
 };
 

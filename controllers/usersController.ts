@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import UsersService from '../services/usersService';
 import StatusLogger from '../utils/statusLogger';
-import { UserDto } from '../types/users';
-import { ApiError } from "../errors/ApiError";
+import { UserDto } from '../types/user';
 
 async function getAllUsers(_req: Request, res: Response) {
   const users = await UsersService.findAll();
@@ -53,10 +52,6 @@ async function signup(req: Request<UserDto>, res: Response){
 async function login(req: Request, res: Response){
   const {email, password} = req.body
   const login = await UsersService.login(email, password)
-
-  if(!login.status){
-      throw ApiError.badRequest("Bad credentials")
-  }
   res.status(200).json({message: login.message, accessToken: login.accessToken})
 }
 

@@ -1,9 +1,11 @@
-import { UserDto } from '../types/users';
+import { UserDto } from '../types/user';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
+
+const SALT_ROUNDS = 12;
 
 const findAll = async () => {
   const users = await UserModel.find();
@@ -27,8 +29,7 @@ const createOne = async (userDto: UserDto) => {
   if(existingUser){
     throw ApiError.badRequest('Email already in use.')
   }
-  
-  const hashedPassword = bcrypt.hashSync(userDto.password, 12);
+  const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
   console.log("hashedPassword: created - 200")
 
   const user = await UserModel.create({
@@ -55,11 +56,16 @@ const login = async (email: string, password: string) => {
     userId: user.id,
     email: user.email,
     role: user.role,
+    username: user.username,
+    password: user.password,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    image: user.image,
   }
-  const accessToken = jwt.sign(payload, process.env.BASED64_SECRET as string, {expiresIn: "1h"})
+  const accessToken = jwt.sign(payload, process.env.TOKEN_SECRET as string)
 
   return {
-    message: "Valid credentials", accessToken, status: true
+    message: "Valid credentials", accessToken
   }
 }
 

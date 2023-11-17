@@ -9,14 +9,15 @@ export type UserDto = z.infer<typeof UserDtoSchema>;
 export type UserType = UserDto & { id: string; role: Role };
 
 export interface DecodedUser extends JwtPayload {
-    userId: string
-    email: string
-    role:   Role
+  userId: string;
+  email: string;
+  role: Role;
 }
 
 export const role = ROLEVALUES;
-export type Role = keyof typeof role
+export type Role = keyof typeof role;
 
-export interface WithAuthRequest extends Request{
-    decodedUser?: DecodedUser 
+export interface WithAuthRequest extends Request {
+  decodedUser?: DecodedUser;
 }
+

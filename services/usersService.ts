@@ -29,7 +29,7 @@ const createOne = async (userDto: UserDto) => {
   }
   
   const hashedPassword = bcrypt.hashSync(userDto.password, 12);
-  console.log("hashedPassword: ", hashedPassword)
+  console.log("hashedPassword: created - 200")
 
   const user = await UserModel.create({
     ...userDto,
@@ -107,5 +107,5 @@ export default {
   deleteOne,
   borrowBooks,
   returnBooks,
-  login
+  login,
 };

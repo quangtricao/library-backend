@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import { Role, role } from '../types/user'; 
+import { Role, role } from '../types/users'; 
 
 export type UserType = Document & {
   username: string;

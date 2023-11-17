@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import UsersService from '../services/usersService';
 import StatusLogger from '../utils/statusLogger';
-import { UserDto } from '../types/user';
+import { UserDto } from '../types/users';
 
 async function getAllUsers(_req: Request, res: Response) {
   const users = await UsersService.findAll();

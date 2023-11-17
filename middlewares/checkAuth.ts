@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { ApiError } from '../errors/ApiError';
 import jwt from 'jsonwebtoken';
-import { DecodedUser, WithAuthRequest } from '../types/user';
+import { DecodedUser, WithAuthRequest } from '../types/users';
 
 export function checkAuth(req: WithAuthRequest, _: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(' ')[1];

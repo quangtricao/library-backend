@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import { WithAuthRequest } from '../types/user';
+import { WithAuthRequest } from '../types/users';
 import { ApiError } from '../errors/ApiError';
 import { ROLEVALUES } from '../common/auth';
 

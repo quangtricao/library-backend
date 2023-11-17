@@ -24,11 +24,8 @@ async function updateUserById(req: Request<{ id: string }, unknown, UserDto>, re
 
 async function deleteUserById(req: Request<{ id: string }>, res: Response) {
   const { id } = req.params;
-  // await UsersService.deleteOne(id);
-  res.status(201).json({
-    message: `user ${id} is deleted`,
-  })
-  //res.status(204).end();
+  await UsersService.deleteOne(id);
+  res.status(204).end();
 }
 
 async function borrowBooks(req: Request<{ id: string }, string[]>, res: Response) {

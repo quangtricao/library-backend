@@ -94,7 +94,7 @@ const deleteOne = async (id: string) => {
 };
 
 const borrowBooks = async (userId: string, bookIds: string[]) => {
-  const user = await findOne(userId); // TODO: Replace this logic with protection middleware later
+  const user = await findOne(userId); 
   const borrowedBooksIds = await Book.borrow(bookIds, user.id);
   return borrowedBooksIds;
 };

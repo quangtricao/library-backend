@@ -60,7 +60,7 @@ const login = async (email: string, password: string) => {
 
 const updateOne = async (id: string, userDto: UserDto) => {
   if (userDto.password) {
-    const hashedPassword = bcrypt.hashSync(userDto.password, 12);
+    const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
     userDto.password = hashedPassword;
   } 
 

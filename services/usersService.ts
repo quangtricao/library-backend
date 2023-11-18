@@ -30,8 +30,6 @@ const createOne = async (userDto: UserDto) => {
     throw ApiError.badRequest('Email already in use.')
   }
   const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
-  console.log("hashedPassword: created - 200")
-
   const user = await UserModel.create({
     ...userDto,
     password: hashedPassword,
@@ -41,26 +39,17 @@ const createOne = async (userDto: UserDto) => {
 
 const login = async (email: string, password: string) => {
   const user = await findOneByEmail(email);
-     
   if(!user){
     throw ApiError.forbidden('Bad credentials')
   }
   
   const isValid = bcrypt.compareSync(password, user.password)
-
   if(!isValid){
     throw ApiError.forbidden('Bad credentials')
   }
 
   const payload = {
-    userId: user.id,
-    email: user.email,
-    role: user.role,
-    username: user.username,
-    password: user.password,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    image: user.image,
+    userId: user.id
   }
   const accessToken = jwt.sign(payload, process.env.TOKEN_SECRET as string)
 
@@ -76,12 +65,9 @@ const updateOne = async (id: string, userDto: UserDto) => {
   } 
 
   const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
-
   if (!updatedUser) {
     throw ApiError.resourceNotFound('User not found');
   }
-
-   
   return updatedUser;
 };
 

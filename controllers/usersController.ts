@@ -43,7 +43,6 @@ async function returnBooks(req: Request<{ id: string }, string[]>, res: Response
 
 async function signup(req: Request<UserDto>, res: Response){
   const userDto = req.body;
-
   const newUser = await UsersService.createOne(userDto)
   StatusLogger.created('users', newUser.id);
   res.status(201).json({ msg: 'User successfully created', newUser})

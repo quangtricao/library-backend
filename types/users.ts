@@ -10,7 +10,6 @@ export type UserType = UserDto & { id: string; role: Role };
 
 export interface DecodedUser extends JwtPayload {
   userId: string;
-  email: string;
   role: Role;
 }
 

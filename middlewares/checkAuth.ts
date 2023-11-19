@@ -13,11 +13,12 @@ export async function checkAuth(req: WithAuthRequest, res: Response, next: NextF
   try {
     const user = jwt.verify(token, process.env.TOKEN_SECRET as string) as DecodedUser;
     const findUser = await UserModel.findById(user.userId); 
+    
     if (!findUser) {
       next(res.status(403).json({ msg: 'Invalid token.' }));
       return;
     }
-    req.decodedUser = user;
+    req.decodedUser = {...user, user: findUser}
     next();
   } catch (error) {
     next(res.status(403).json({ msg: 'Invalid token.'}))

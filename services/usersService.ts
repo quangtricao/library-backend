@@ -52,7 +52,6 @@ const login = async (email: string, password: string) => {
     userId: user.id
   }
   const accessToken = jwt.sign(payload, process.env.TOKEN_SECRET as string)
-
   return {
     message: "Valid credentials", accessToken
   }

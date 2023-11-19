@@ -3,6 +3,7 @@ import { UserDtoSchema } from '../schemas/user';
 import { JwtPayload } from 'jsonwebtoken';
 import { ROLEVALUES } from '../common/auth';
 import { Request } from 'express';
+import { UserTypes } from '../models/User';
 
 export type UserDto = z.infer<typeof UserDtoSchema>;
 
@@ -16,7 +17,7 @@ export interface DecodedUser extends JwtPayload {
 export const role = ROLEVALUES;
 export type Role = keyof typeof role;
 
-export interface WithAuthRequest extends Request {
-  decodedUser?: DecodedUser;
+export interface WithAuthRequest extends Request<{ id: string }> {
+  user?: UserTypes;
 }
 

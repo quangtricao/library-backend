@@ -1,5 +1,11 @@
+import { BookFiltersSchema } from '../schemas/book';
 import { FindAllBooksOptions } from '../types/books';
 import { getPaginationOptionsFromQuery } from '../utils/pagination';
+
+async function getFindAllBooksFiltersFromQuery(query: qs.ParsedQs) {
+  const filters = await BookFiltersSchema.parseAsync(query);
+  return filters;
+}
 
 /**
  * Parses query params and gets pagination and filtering options for BooksService.findAll.
@@ -11,5 +17,6 @@ export async function getFindAllBooksOptionsFromQuery(
   query: qs.ParsedQs
 ): Promise<FindAllBooksOptions> {
   const pagination = await getPaginationOptionsFromQuery(query);
-  return { ...pagination };
+  const filters = await getFindAllBooksFiltersFromQuery(query);
+  return { ...pagination, ...filters };
 }

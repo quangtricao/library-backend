@@ -5,3 +5,5 @@ export const genreSchema = z.object({
     message: 'Title must not be empty',
   }),
 });
+
+export const TitleQueryParamSchema = z.string().default('');

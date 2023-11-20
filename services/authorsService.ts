@@ -1,12 +1,19 @@
-import { AuthorDto } from '../types/authors';
+import { AuthorDto, AuthorFilters, FindAllAuthorsOptions } from '../types/authors';
 import Author from '../models/Author';
 import { ApiError } from '../errors/ApiError';
 import BookAuthor from '../models/BookAuthor';
+import { mapPaginationToMongoose } from '../utils/mongoose';
 
-const getAll = async () => {
-  const authors = await Author.find();
+const getAll = async (options: FindAllAuthorsOptions, filters?: AuthorFilters) => {
+  const pagination = mapPaginationToMongoose(options);
+  let query = {};
+  if (filters) {
+    query = { name: { $regex: new RegExp(filters, 'i') } };
+  }
+  const authors = await Author.find(query, {}, pagination); 
   return authors;
 };
+
 const getBooksByAuthor = async (authorId: string) => {
   const author = await Author.findById(authorId);
   if (!author) {
@@ -22,7 +29,8 @@ const getBooksByAuthor = async (authorId: string) => {
 };
 
 const createNewAuthor = async (newAuthor: AuthorDto) => {
-  const author = Author.create(newAuthor);
+  const author = new Author(newAuthor);
+  await author.save();
   return author;
 };
 

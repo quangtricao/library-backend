@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BookDtoSchema } from '../schemas/book';
+import { BookDtoSchema, BookFiltersSchema } from '../schemas/book';
 import { PaginationType } from './pagination';
 
 //
@@ -13,5 +13,5 @@ import { PaginationType } from './pagination';
 export type BookDto = z.infer<typeof BookDtoSchema>;
 export type BookType = z.mergeTypes<BookDto, { id: string }>;
 
-export type BookFilters = unknown; // TODO: add filters here
+export type BookFilters = z.infer<typeof BookFiltersSchema>;
 export type FindAllBooksOptions = z.mergeTypes<PaginationType, BookFilters>;

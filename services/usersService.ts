@@ -2,6 +2,8 @@ import { UserDto } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
+import bcrypt from 'bcrypt';
+import { SALT_ROUNDS } from './authService';
 
 const findAll = async () => {
   const users = await UserModel.find();
@@ -16,14 +18,23 @@ const findOne = async (id: string) => {
   return user;
 };
 
+const findOneByEmail = async (email: string) => {
+  return UserModel.findOne({ email });
+};
+
 const createOne = async (userDto: UserDto) => {
   const user = await UserModel.create(userDto);
   return user;
 };
 
 const updateOne = async (id: string, userDto: UserDto) => {
+  if (userDto.password) {
+    // 👆 This thing is always true
+    // TODO: Transfer the password update logic to /auth/update-password
+    const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
+    userDto.password = hashedPassword;
+  }
   const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
-
   if (!updatedUser) {
     throw ApiError.resourceNotFound('User not found');
   }
@@ -39,7 +50,7 @@ const deleteOne = async (id: string) => {
 };
 
 const borrowBooks = async (userId: string, bookIds: string[]) => {
-  const user = await findOne(userId); // TODO: Replace this logic with protection middleware later
+  const user = await findOne(userId);
   const borrowedBooksIds = await Book.borrow(bookIds, user.id);
   return borrowedBooksIds;
 };
@@ -54,6 +65,7 @@ export default {
   findAll,
   findOne,
   createOne,
+  findOneByEmail,
   updateOne,
   deleteOne,
   borrowBooks,

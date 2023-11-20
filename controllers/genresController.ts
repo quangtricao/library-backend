@@ -21,7 +21,8 @@ const getOneGenre = async (req: Request, res: Response) => {
 
 const getAllBooksByGenre = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const allBooks = await genreService.getAllBooks(id);
+  const pagination = await getPaginationOptionsFromQuery(req.query);
+  const allBooks = await genreService.getAllBooks(id, pagination);
   res.status(200).json(allBooks);
 };
 

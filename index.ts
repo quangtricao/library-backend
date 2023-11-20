@@ -7,7 +7,6 @@ import { loggingMiddleware } from './middlewares/logging';
 import { errorLoggingMiddleware } from './middlewares/error';
 import { connectMongoDB } from './config/mongoose';
 
-const PORT = process.env.PORT ?? 1337;
 const app = express();
 
 connectMongoDB();
@@ -21,6 +20,4 @@ app.use('/api/v1/', router);
 app.use(errorLoggingMiddleware);
 app.use(routeNotFound);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is accessible at http://localhost:${PORT}`);
-});
+export default app;

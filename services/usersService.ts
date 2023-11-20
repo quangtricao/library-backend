@@ -3,9 +3,7 @@ import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
-
-const SALT_ROUNDS = 12;
+import { SALT_ROUNDS } from './authService';
 
 const findAll = async () => {
   const users = await UserModel.find();
@@ -21,50 +19,21 @@ const findOne = async (id: string) => {
 };
 
 const findOneByEmail = async (email: string) => {
-  return UserModel.findOne({email});
+  return UserModel.findOne({ email });
 };
 
 const createOne = async (userDto: UserDto) => {
-  const existingUser = await findOneByEmail(userDto.email)
-  if(existingUser){
-    throw ApiError.badRequest('Email already in use.')
-  }
-  const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
-  const user = await UserModel.create({
-    ...userDto,
-    password: hashedPassword,
-  });
+  const user = await UserModel.create(userDto);
   return user;
-}
-
-const login = async (email: string, password: string) => {
-  const user = await findOneByEmail(email);
-  if(!user){
-    throw ApiError.forbidden('Bad credentials')
-  }
-  
-  const isValid = bcrypt.compareSync(password, user.password)
-  if(!isValid){
-    throw ApiError.forbidden('Bad credentials')
-  }
-
-  const payload = {
-   userId: user.id
-  }
-  console.log("service",user)
-  const accessToken = jwt.sign(payload, process.env.TOKEN_SECRET as string)
-  console.log(payload)
-  return {
-    message: "Valid credentials", accessToken, user
-  }
-}
+};
 
 const updateOne = async (id: string, userDto: UserDto) => {
   if (userDto.password) {
+    // 👆 This thing is always true
+    // TODO: Transfer the password update logic to /auth/update-password
     const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
     userDto.password = hashedPassword;
-  } 
-
+  }
   const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
   if (!updatedUser) {
     throw ApiError.resourceNotFound('User not found');
@@ -81,7 +50,7 @@ const deleteOne = async (id: string) => {
 };
 
 const borrowBooks = async (userId: string, bookIds: string[]) => {
-  const user = await findOne(userId); 
+  const user = await findOne(userId);
   const borrowedBooksIds = await Book.borrow(bookIds, user.id);
   return borrowedBooksIds;
 };
@@ -96,9 +65,9 @@ export default {
   findAll,
   findOne,
   createOne,
+  findOneByEmail,
   updateOne,
   deleteOne,
   borrowBooks,
   returnBooks,
-  login,
 };

@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import UsersService from '../services/usersService';
-import StatusLogger from '../utils/statusLogger';
 import { UserDto } from '../types/users';
 
 async function getAllUsers(_req: Request, res: Response) {
@@ -41,19 +40,6 @@ async function returnBooks(req: Request<{ id: string }, string[]>, res: Response
   res.status(200).send(returnedBooksIds);
 }
 
-async function signup(req: Request<UserDto>, res: Response){
-  const userDto = req.body;
-  const newUser = await UsersService.createOne(userDto)
-  StatusLogger.created('users', newUser.id);
-  res.status(201).json({ msg: 'User successfully created', newUser})
-}
-
-async function login(req: Request, res: Response){
-  const {email, password} = req.body
-  const login = await UsersService.login(email, password)
-  res.status(200).json({message: login.message, accessToken: login.accessToken})
-}
-
 export default {
   getAllUsers,
   getUserById,
@@ -61,6 +47,4 @@ export default {
   deleteUserById,
   borrowBooks,
   returnBooks,
-  signup,
-  login,
 };

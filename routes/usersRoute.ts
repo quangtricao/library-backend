@@ -8,11 +8,19 @@ import { checkAdminRoleOrOwnership } from '../middlewares/checkAdminRoleOrOwners
 
 export const userRouter = express.Router();
 
-userRouter.get('/', checkAuth, checkAdminRoleOrOwnership, passThrowsToMiddleware(UsersController.getAllUsers));
-userRouter.get('/:id', validateId, checkAuth,checkAdminRoleOrOwnership, passThrowsToMiddleware(UsersController.getUserById));
-
-userRouter.post('/login', passThrowsToMiddleware(UsersController.login));
-userRouter.post('/signup', validateUserDtoInput, passThrowsToMiddleware(UsersController.signup));
+userRouter.get(
+  '/',
+  checkAuth,
+  checkAdminRoleOrOwnership,
+  passThrowsToMiddleware(UsersController.getAllUsers)
+);
+userRouter.get(
+  '/:id',
+  validateId,
+  checkAuth,
+  checkAdminRoleOrOwnership,
+  passThrowsToMiddleware(UsersController.getUserById)
+);
 
 userRouter.post(
   '/:id/borrow',

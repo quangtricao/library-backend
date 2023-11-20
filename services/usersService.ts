@@ -49,12 +49,13 @@ const login = async (email: string, password: string) => {
   }
 
   const payload = {
-    userId: user.id
+   userId: user.id
   }
+  console.log("service",user)
   const accessToken = jwt.sign(payload, process.env.TOKEN_SECRET as string)
   console.log(payload)
   return {
-    message: "Valid credentials", accessToken
+    message: "Valid credentials", accessToken, user
   }
 }
 

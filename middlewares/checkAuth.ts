@@ -17,8 +17,9 @@ export async function checkAuth(req: WithAuthRequest, res: Response, next: NextF
       next(res.status(403).json({ msg: 'Invalid token.' }));
       return;
     }
-         
-    req.user = findUser;
+    
+    req.user =  findUser;
+    console.log(req.user)
     next();
   } catch (error) {
     next(res.status(403).json({ msg: 'Invalid token.'}))

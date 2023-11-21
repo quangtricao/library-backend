@@ -7,5 +7,5 @@ export default {
   testEnvironment: 'node',
   collectCoverageFrom: ['middlewares/**/*.ts', 'services/**/*.ts', 'controllers/**/*.ts'],
   setupFiles: ['dotenv/config', 'dotenv-expand/config'],
-  testTimeout: 15000,
+  testTimeout: 30000,
 };

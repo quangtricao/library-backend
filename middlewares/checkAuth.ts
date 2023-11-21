@@ -2,11 +2,12 @@ import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { JwtPayloadType, WithAuthRequest } from '../types/users';
 import UserModel from '../models/User';
+import { ApiError } from '../errors/ApiError';
 
-export async function checkAuth(req: WithAuthRequest, res: Response, next: NextFunction) {
+export async function checkAuth(req: WithAuthRequest, _res: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
-    next(res.status(400).json({ msg: 'Token is missing.' }));
+    next(ApiError.forbidden('Token is missing'));
     return;
   }
   try {
@@ -14,13 +15,13 @@ export async function checkAuth(req: WithAuthRequest, res: Response, next: NextF
     const findUser = await UserModel.findById(userId);
 
     if (!findUser) {
-      next(res.status(403).json({ msg: 'Invalid token.' }));
+      next(ApiError.forbidden('Invalid token.'));
       return;
     }
 
     req.user = findUser;
     next();
   } catch (error) {
-    next(res.status(403).json({ msg: 'Invalid token.' }));
+    next(error);
   }
 }

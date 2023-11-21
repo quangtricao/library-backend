@@ -5,5 +5,6 @@ export default {
   },
   testMatch: ['**/test/**/*.test.(ts|js)'],
   testEnvironment: 'node',
+  collectCoverageFrom: ['middlewares/**/*.ts', 'services/**/*.ts', 'controllers/**/*.ts'],
   setupFiles: ['dotenv/config', 'dotenv-expand/config'],
 };

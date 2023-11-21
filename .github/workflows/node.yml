@@ -27,14 +27,12 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - name: Load MongoDB binary cache
-        id: cache-mongodb-binaries
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/mongodb-binaries
-          key: ${{ matrix.node-version }}
       - name: Install dependencies
         run: pnpm install
+      - name: Check for MMS cache
+        run: |
+          cd node_modules/mongodb-memory-server-global
+          node postinstall.js
       - name: Lint
         run: pnpm lint
       - name: Test

@@ -6,4 +6,6 @@ export const genreSchema = z.object({
   }),
 });
 
-export const TitleQueryParamSchema = z.string().default('');
+export const TitleQueryParamSchema = z.object({
+  title: z.string().default(''),
+});

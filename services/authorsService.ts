@@ -4,11 +4,11 @@ import { ApiError } from '../errors/ApiError';
 import BookAuthor from '../models/BookAuthor';
 import { mapPaginationToMongoose } from '../utils/mongoose';
 
-const getAll = async (options: FindAllAuthorsOptions, filters?: AuthorFilters) => {
+const getAll = async (options: FindAllAuthorsOptions, name?: AuthorFilters) => {
   const pagination = mapPaginationToMongoose(options);
   let query = {};
-  if (filters) {
-    query = { name: { $regex: new RegExp(filters, 'i') } };
+  if (name) {
+    query = { name: { $regex: name, $options: 'i'} };
   }
   const authors = await Author.find(query, {}, pagination); 
   return authors;

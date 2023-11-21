@@ -23,12 +23,13 @@ const getOne = async (id: string) => {
   return genre;
 };
 
-const getAllBooks = async (id: string) => {
+const getAllBooks = async (id: string, pagination: PaginationType) => {
   const genre = await GenreModel.findById(id);
   if (!genre) {
     throw ApiError.resourceNotFound('Genre not exits');
   }
-  const bookGenres = await BookGenre.find({ genreId: genre._id }).populate({
+  const paginationOption = mapPaginationToMongoose(pagination);
+  const bookGenres = await BookGenre.find({ genreId: genre._id }, {}, paginationOption).populate({
     path: 'bookId',
     model: 'Book',
   });

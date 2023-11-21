@@ -18,6 +18,7 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_ADDRESS=${{ secrets.DB_ADDRESS }}" >> .env
+          echo "TOKEN_SECRET=${{ secrets.TOKEN_SECRET }}" >> .env
           cat .env.example | grep "DB_URL" >> .env
           echo "PORT=${{ secrets.PORT }}" >> .env
       - name: Restart PM2 process

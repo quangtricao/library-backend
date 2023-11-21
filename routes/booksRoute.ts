@@ -26,12 +26,16 @@ booksRouter.post(
 );
 booksRouter.put(
   '/:isbn',
+  checkAuth,
+  checkAdmin,
   BooksValidator.validateBookIsbnParam,
   BooksValidator.validateBookDtoInput,
   passThrowsToMiddleware(BooksController.updateBookByIsbn)
 );
 booksRouter.delete(
   '/:isbn',
+  checkAuth,
+  checkAdmin,
   BooksValidator.validateBookIsbnParam,
   passThrowsToMiddleware(BooksController.deleteBookByIsbn)
 );

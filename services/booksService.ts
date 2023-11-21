@@ -54,6 +54,10 @@ async function updateOne(isbn: string, bookDto: BookDto) {
 }
 
 async function deleteOne(isbn: string) {
+  const bookExists = await Book.exists({ isbn });
+  if (!bookExists) {
+    throw ApiError.resourceNotFound('Book not found');
+  }
   await Book.findOneAndDelete({ isbn });
 }
 

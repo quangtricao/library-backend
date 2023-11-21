@@ -1,5 +1,5 @@
 ---
-name: Node.js Lint & Build
+name: Node.js Lint, Test, Build
 on: [pull_request, push]
 jobs:
   lint-and-build:
@@ -29,7 +29,13 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install
+      - name: Check for MMS cache
+        run: |
+          cd node_modules/mongodb-memory-server-global
+          node postinstall.js
       - name: Lint
         run: pnpm lint
+      - name: Test
+        run: pnpm test
       - name: Build
         run: pnpm build

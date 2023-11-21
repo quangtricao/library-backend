@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UsersService from './usersService';
 import { LoginCredentialsType } from '../types/auth';
+import { ApiError } from '../errors/ApiError';
 
 export const SALT_ROUNDS = 12;
 
@@ -32,12 +33,12 @@ const signup = async (userDto: UserDto) => {
 const login = async (loginCredentials: LoginCredentialsType) => {
   const user = await UsersService.findOneByEmail(loginCredentials.email);
   if (!user) {
-    throw new Error('Bad credentials');
+    throw ApiError.forbidden('Bad credentials');
   }
 
   const isValid = await bcrypt.compare(loginCredentials.password, user.password);
   if (!isValid) {
-    throw new Error('Bad credentials');
+    throw ApiError.forbidden('Bad credentials');
   }
 
   const accessToken = encodeJwtToken(user.id);

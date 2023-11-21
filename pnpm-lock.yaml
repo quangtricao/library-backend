@@ -76,6 +76,9 @@ devDependencies:
   mongodb-memory-server:
     specifier: ^9.1.1
     version: 9.1.1
+  mongodb-memory-server-global:
+    specifier: ^9.1.1
+    version: 9.1.1
   nodemon:
     specifier: ^3.0.1
     version: 3.0.1
@@ -3346,6 +3349,22 @@ packages:
       tar-stream: 3.1.6
       tslib: 2.6.2
       yauzl: 2.10.0
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - supports-color
+    dev: true
+
+  /mongodb-memory-server-global@9.1.1:
+    resolution: {integrity: sha512-LtEBEVvApoi7WMS7brrnZ9vnqmEuZmQB8ziP3wQG1lsQ6ig0SDt0oykm8LFJoswkC5PAXO/8jiy+mvUDq+vdrw==}
+    engines: {node: '>=14.20.1'}
+    requiresBuild: true
+    dependencies:
+      mongodb-memory-server-core: 9.1.1
+      tslib: 2.6.2
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@mongodb-js/zstd'

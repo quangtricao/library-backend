@@ -1,5 +1,5 @@
 ---
-name: Node.js Lint & Build
+name: Node.js Lint, Test, Build
 on: [pull_request, push]
 jobs:
   lint-and-build:
@@ -31,5 +31,7 @@ jobs:
         run: pnpm install
       - name: Lint
         run: pnpm lint
+      - name: Test
+        run: pnpm test
       - name: Build
         run: pnpm build

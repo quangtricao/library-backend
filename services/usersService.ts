@@ -1,4 +1,4 @@
-import { Role, UserDto } from '../types/users';
+import { UserDto } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';

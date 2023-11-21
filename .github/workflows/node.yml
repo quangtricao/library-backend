@@ -29,8 +29,6 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install
-      - name: Install mongodb-memory-server-global
-        run: pnpm install mongodb-memory-server-global
       - name: Check for MMS cache
         run: |
           cd node_modules/mongodb-memory-server-global

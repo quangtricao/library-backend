@@ -31,4 +31,9 @@ genresRouter.put(
   genresValidator.validateGenreDtoInput,
   passThrowsToMiddleware(genreController.updateGenre)
 );
-genresRouter.delete('/:id', passThrowsToMiddleware(genreController.deleteGenre));
+genresRouter.delete(
+  '/:id',
+  checkAuth,
+  checkAdminRoleOrOwnership,
+  passThrowsToMiddleware(genreController.deleteGenre)
+);

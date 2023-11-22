@@ -16,7 +16,7 @@ describe('booksController', () => {
   test('get /books', async () => {
     const response = await request(app).get('/api/v1/books').send();
     expect(response.status).toBe(200);
-    expect(response.body).toEqual([]);
+    expect(response.body.data.books).toEqual([]);
   });
 
   test('get /books with incorrect pagination fails', async () => {
@@ -107,7 +107,7 @@ describe('booksController protected routes – admin', () => {
         title: 'Updated title',
       });
     expect(response.status).toBe(200);
-    expect(response.body.title).toBe('Updated title');
+    expect(response.body.data.title).toBe('Updated title');
   });
 
   it('fails to update non-existing book by ISBN', async () => {

@@ -22,7 +22,7 @@ export async function getPaginationOptionsFromQuery(query: qs.ParsedQs): Promise
  */
 export function composePaginationOutput(entitiesCount: number, pagination: PaginationType) {
   const { page, limit } = pagination;
-  const totalPages = entitiesCount === Math.ceil(entitiesCount / limit);
+  const totalPages = Math.ceil(entitiesCount / limit);
   return {
     page,
     totalPages,

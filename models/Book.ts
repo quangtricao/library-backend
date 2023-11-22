@@ -8,7 +8,6 @@ import {
 } from './helpers/books';
 import autopopulate from 'mongoose-autopopulate';
 import { FindAllBooksOptions } from '../types/books';
-import { composePaginationOutput } from '../utils/pagination';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -140,7 +139,7 @@ const BookSchema = new Schema(
       findAllByOptions: async function (options: FindAllBooksOptions) {
         const aggregated = await this.aggregate(composeAggregationFromOptions(options));
         const { books, total } = aggregated[0];
-        const booksCount = _.get(total, [0, 'total'], 0);
+        const booksCount = _.get(total, [0, 'total'], 0) as number;
         const bookIds = books.map((book: { _id: string }) => book._id);
         const booksWithPopulatedFields = await this.find({ _id: { $in: bookIds } }); // So the output would look good
         return {

@@ -3,6 +3,7 @@ import Book from '../models/Book';
 import BookAuthor from '../models/BookAuthor';
 import BookGenre from '../models/BookGenre';
 import { BookDto, FindAllBooksOptions } from '../types/books';
+import { composePaginationOutput } from '../utils/pagination';
 
 async function assignAuthorsToBook(bookId: string, authors: string[]) {
   const bookAuthors = authors.map((authorId) => ({
@@ -21,8 +22,9 @@ async function assignGenresToBook(bookId: string, genres: string[]) {
 }
 
 async function findAll(options: FindAllBooksOptions) {
-  const books = await Book.findAllByOptions(options);
-  return books;
+  const { books, count } = await Book.findAllByOptions(options);
+  const pagination = composePaginationOutput(count, options);
+  return { books, pagination };
 }
 
 async function findOne(isbn: string) {

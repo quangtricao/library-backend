@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
+
 import AuthorsService from '../services/authorsService';
 import { AuthorFilters } from '../types/authors';
 import { getFindAllAuthorsOptionsFromQuery } from '../utils/authors';
+import { getPaginationOptionsFromQuery } from '../utils/pagination';
 
 export const getAllAuthors = async (req: Request, res: Response) => {
   const options = await getFindAllAuthorsOptionsFromQuery(req.query);
@@ -12,7 +14,8 @@ export const getAllAuthors = async (req: Request, res: Response) => {
 
 export const getAuthorsBooks = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const books = await AuthorsService.getBooksByAuthor(id);
+  const pagination = await getPaginationOptionsFromQuery(req.query);
+  const books = await AuthorsService.getBooksByAuthor(id, pagination);
   res.status(200).json(books);
 };
 

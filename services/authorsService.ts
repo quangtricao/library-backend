@@ -8,18 +8,19 @@ const getAll = async (options: FindAllAuthorsOptions, name?: AuthorFilters) => {
   const pagination = mapPaginationToMongoose(options);
   let query = {};
   if (name) {
-    query = { name: { $regex: name, $options: 'i'} };
+    query = { name: { $regex: name, $options: 'i' } };
   }
-  const authors = await Author.find(query, {}, pagination); 
+  const authors = await Author.find(query, {}, pagination);
   return authors;
 };
 
-const getBooksByAuthor = async (authorId: string) => {
+const getBooksByAuthor = async (authorId: string, options: FindAllAuthorsOptions) => {
   const author = await Author.findById(authorId);
   if (!author) {
     throw ApiError.resourceNotFound('Author not exits');
   }
-  const bookAuthor = await BookAuthor.find({ authorId: author._id }).populate({
+  const pagination = mapPaginationToMongoose(options);
+  const bookAuthor = await BookAuthor.find({ authorId: author._id }, {}, pagination).populate({
     path: 'bookId',
     model: 'Book',
   });
@@ -50,8 +51,9 @@ const updateById = async (authorId: string, author: AuthorDto) => {
   return updatedAuthor;
 };
 
-const deleteById = async (authorsId: string) => {
-  await Author.findByIdAndDelete(authorsId);
+const deleteById = async (authorId: string) => {
+  await Author.findByIdAndDelete(authorId);
+  await BookAuthor.deleteMany({ authorId });
 };
 
 export default { getAll, createNewAuthor, getById, updateById, deleteById, getBooksByAuthor };

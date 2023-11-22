@@ -11,6 +11,7 @@ import {
 import { errorLoggingMiddleware } from '../middlewares/error';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 import authorsValidator from '../middlewares/authorsValidator';
+import { checkAuth } from '../middlewares/checkAuth';
 
 export const authorsRouter = express.Router();
 authorsRouter.use(errorLoggingMiddleware);
@@ -20,11 +21,13 @@ authorsRouter.post('/', authorsValidator.validateAuthorInput, passThrowsToMiddle
 authorsRouter.get('/:id', authorsValidator.authorIdValidate, passThrowsToMiddleware(getAuthorById));
 authorsRouter.put(
   '/:id',
+  checkAuth,
   authorsValidator.validateAuthorInput,
   passThrowsToMiddleware(updateAuthor)
 );
 authorsRouter.delete(
   '/:id',
+  checkAuth,
   authorsValidator.authorIdValidate,
   passThrowsToMiddleware(deleteAuthor)
 );

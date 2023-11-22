@@ -3,7 +3,7 @@ import { createUser } from '../__fixtures__/createUser';
 import { createAdmin } from '../__fixtures__/createAdmin';
 import authService from '../../services/authService';
 
-describe('authController', () => {
+describe('authService', () => {
   let mongoHelper: MongoHelper;
 
   beforeAll(async () => {

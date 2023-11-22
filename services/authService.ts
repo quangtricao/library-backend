@@ -15,7 +15,7 @@ const encodeJwtToken = (userId: string) => {
 const signup = async (userDto: UserDto) => {
   const emailTaken = await UsersService.findOneByEmail(userDto.email);
   if (emailTaken) {
-    throw new Error('Email already in use');
+    throw ApiError.badRequest('Email already in use');
   }
 
   const hashedPassword = await bcrypt.hash(userDto.password, SALT_ROUNDS);

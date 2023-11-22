@@ -104,12 +104,12 @@ describe('authController', () => {
   test('This test should fail: post /auth/signup with an existing email being used', async () => {
     const response = await request(app).post('/api/v1/auth/signup').send({
       password: 'KahnaPassword',
-      firstName: '',
+      firstName: 'Kahna',
       lastName: 'JJ. Josh',
-      email: 'newEmail@hh.com',
-      image: '',
+      email: 'user@user.com',
+      image: 'https://images.com/user.png',
     });
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   test('This test should fail: post /auth/signup missing fields', async () => {

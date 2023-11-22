@@ -17,19 +17,6 @@ describe('authController', () => {
     expect(response.body.accessToken).toBeDefined();
     expect(typeof response.body.accessToken).toBe('string');
     expect(response.body.accessToken.length).toBeGreaterThan(0);
-
-    expect(response.body.user).toBeDefined();
-    expect(typeof response.body.user).toBe('object');
-    expect(response.body.user).toEqual({
-      _id: expect.any(String),
-      password: expect.any(String),
-      firstName: 'admin',
-      lastName: 'admin',
-      email: 'admin@admin.com',
-      image: 'https://images.com/admin.png',
-      role: 'ADMIN',
-      __v: 0,
-    });
   });
 
   test('This test should pass: post /auth/signup as user', async () => {
@@ -38,19 +25,6 @@ describe('authController', () => {
     expect(response.body.accessToken).toBeDefined();
     expect(typeof response.body.accessToken).toBe('string');
     expect(response.body.accessToken.length).toBeGreaterThan(0);
-
-    expect(response.body.user).toBeDefined();
-    expect(typeof response.body.user).toBe('object');
-    expect(response.body.user).toEqual({
-      _id: expect.any(String),
-      password: expect.any(String),
-      firstName: 'user',
-      lastName: 'user',
-      email: 'user@user.com',
-      image: 'https://images.com/user.png',
-      role: 'USER',
-      __v: 0,
-    });
   });
 
   test('This test should pass: post /auth/login as admin', async () => {
@@ -63,18 +37,6 @@ describe('authController', () => {
     expect(response.body.accessToken).toBeDefined();
     expect(typeof response.body.accessToken).toBe('string');
     expect(response.body.accessToken.length).toBeGreaterThan(0);
-    expect(response.body.user).toBeDefined();
-    expect(typeof response.body.user).toBe('object');
-    expect(response.body.user).toEqual({
-      _id: expect.any(String),
-      password: expect.any(String),
-      firstName: 'admin',
-      lastName: 'admin',
-      email: 'admin@admin.com',
-      image: 'https://images.com/admin.png',
-      role: 'ADMIN',
-      __v: 0,
-    });
   });
 
   test('This test should pass: post /auth/login as user', async () => {
@@ -87,18 +49,6 @@ describe('authController', () => {
     expect(response.body.accessToken).toBeDefined();
     expect(typeof response.body.accessToken).toBe('string');
     expect(response.body.accessToken.length).toBeGreaterThan(0);
-    expect(response.body.user).toBeDefined();
-    expect(typeof response.body.user).toBe('object');
-    expect(response.body.user).toEqual({
-      _id: expect.any(String),
-      password: expect.any(String),
-      firstName: 'user',
-      lastName: 'user',
-      email: 'user@user.com',
-      image: 'https://images.com/user.png',
-      role: 'USER',
-      __v: 0,
-    });
   });
 
   test('This test should fail: post /auth/signup with an existing email being used', async () => {

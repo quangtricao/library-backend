@@ -1,8 +1,4 @@
-import request from 'supertest';
 import connect, { MongoHelper } from '../dbHelper';
-import app from '../..';
-import adminFixtures from '../__fixtures__/admins';
-import userFixtures from '../__fixtures__/users';
 import { createUser } from '../__fixtures__/createUser';
 import { createAdmin } from '../__fixtures__/createAdmin';
 import authService from '../../services/authService';

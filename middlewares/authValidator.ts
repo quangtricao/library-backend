@@ -6,8 +6,8 @@ async function validateLoginCredentials(req: Request, res: Response, next: NextF
   try {
     await LoginCredentialsSchema.parseAsync(req.body);
     next();
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    res.status(400).json(error);
   }
 }
 

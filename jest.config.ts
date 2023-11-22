@@ -3,7 +3,8 @@ export default {
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
   },
-  testMatch: ['**/test/**/*.test.(ts|js)'],
+  testMatch: ['**/test/**/*.test.ts'],
   testEnvironment: 'node',
+  collectCoverageFrom: ['middlewares/**/*.ts', 'services/**/*.ts', 'controllers/**/*.ts'],
   setupFiles: ['dotenv/config', 'dotenv-expand/config'],
 };

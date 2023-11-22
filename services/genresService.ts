@@ -1,14 +1,14 @@
-import { GenreDTO } from '../types/genres';
+import { GenreDTO, GenreQueryParamsType } from '../types/genres';
 import GenreModel from '../models/Genre';
 import { ApiError } from '../errors/ApiError';
 import BookGenre from '../models/BookGenre';
 import { mapPaginationToMongoose } from '../utils/mongoose';
 import { PaginationType } from '../types/pagination';
 
-const getAll = async (title: string, pagination: PaginationType) => {
-  const paginationOption = mapPaginationToMongoose(pagination);
+const getAll = async (options: GenreQueryParamsType) => {
+  const paginationOption = mapPaginationToMongoose({ page: options.page, limit: options.limit });
   const genres = await GenreModel.find(
-    { title: { $regex: title, $options: 'i' } },
+    { title: { $regex: options.title, $options: 'i' } },
     {},
     paginationOption
   );

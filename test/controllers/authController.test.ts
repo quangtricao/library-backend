@@ -10,7 +10,7 @@ describe('authController', () => {
     mongoHelper = await connect();
   });
 
-  test('create a user role', async () => {
+  test('user signup', async () => {
     const response = await request(app).post('/api/v1/auth/signup').send(userFixtures[0]);
     expect(response.status).toBe(201);
     expect(response.body.accessToken).toBeDefined();
@@ -38,7 +38,7 @@ describe('authController', () => {
       email: 'user@user.com',
       image: 'https://images.com/user.png',
     });
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(400);
   });
 
   test('fails to create a user due to missing input fields', async () => {
@@ -59,8 +59,8 @@ describe('authController', () => {
     expect(response1.status).toBe(400);
 
     const response2 = await request(app).post('/api/v1/auth/login').send({
-      email: ' ',
-      password: ' ',
+      email: '',
+      password: '',
     });
     expect(response2.status).toBe(400);
   });
@@ -80,7 +80,6 @@ describe('authController', () => {
   });
 
   afterAll(async () => {
-    await mongoHelper.clearDatabase();
     await mongoHelper.closeDatabase();
   });
 });

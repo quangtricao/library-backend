@@ -43,7 +43,6 @@ describe('authService', () => {
   });
 
   afterAll(async () => {
-    await mongoHelper.clearDatabase();
     await mongoHelper.closeDatabase();
   });
 });

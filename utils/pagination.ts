@@ -13,3 +13,18 @@ export async function getPaginationOptionsFromQuery(query: qs.ParsedQs): Promise
   const pagination = await PaginationSchema.parseAsync(query);
   return pagination;
 }
+
+/**
+ * Composes pagination output from the given entities count and pagination options.
+ *
+ * @param entitiesCount The total number of entities.
+ * @param pagination The pagination options.
+ */
+export function composePaginationOutput(entitiesCount: number, pagination: PaginationType) {
+  const { page, limit } = pagination;
+  const totalPages = entitiesCount === Math.ceil(entitiesCount / limit);
+  return {
+    page,
+    totalPages,
+  };
+}

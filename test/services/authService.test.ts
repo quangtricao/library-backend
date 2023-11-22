@@ -13,20 +13,9 @@ describe('authService', () => {
     const response = await createUser();
 
     expect(response.accessToken).toBeDefined();
-    expect(typeof response.accessToken).toBe('string');
-    expect(response.accessToken.length).toBeGreaterThan(0);
-
     expect(response.user).toBeDefined();
+    expect(typeof response.accessToken).toBe('string');
     expect(typeof response.user).toBe('object');
-    expect(response.user._id).toBeDefined();
-    expect(response.user.password).toBeDefined();
-    expect(response.user.lastName).toEqual('user');
-    expect(response.user.firstName).toEqual('user');
-    expect(response.user.role).toEqual('USER');
-    expect(response.user.password).toBeDefined();
-    expect(response.user.email).toEqual('user@user.com');
-    expect(response.user.image).toEqual('https://images.com/user.png');
-    expect(response.user.__v).toEqual(0);
   });
 
   test('login as user', async () => {

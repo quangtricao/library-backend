@@ -109,10 +109,21 @@ export function composeAggregationFromOptions(options: FindAllBooksOptions) {
       },
     },
     {
-      $skip: pagination.skip,
-    },
-    {
-      $limit: pagination.limit,
+      $facet: {
+        books: [
+          {
+            $skip: pagination.skip,
+          },
+          {
+            $limit: pagination.limit,
+          },
+        ],
+        total: [
+          {
+            $count: 'total',
+          },
+        ],
+      },
     },
   ];
 }

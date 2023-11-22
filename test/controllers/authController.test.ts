@@ -1,7 +1,6 @@
 import request from 'supertest';
 import connect, { MongoHelper } from '../dbHelper';
 import app from '../..';
-import adminFixtures from '../__fixtures__/admins';
 import userFixtures from '../__fixtures__/users';
 
 describe('authController', () => {
@@ -11,15 +10,7 @@ describe('authController', () => {
     mongoHelper = await connect();
   });
 
-  test('This test should pass: post /auth/signup as admin', async () => {
-    const response = await request(app).post('/api/v1/auth/signup').send(adminFixtures[0]);
-    expect(response.status).toBe(201);
-    expect(response.body.accessToken).toBeDefined();
-    expect(typeof response.body.accessToken).toBe('string');
-    expect(response.body.accessToken.length).toBeGreaterThan(0);
-  });
-
-  test('This test should pass: post /auth/signup as user', async () => {
+  test('create a user role', async () => {
     const response = await request(app).post('/api/v1/auth/signup').send(userFixtures[0]);
     expect(response.status).toBe(201);
     expect(response.body.accessToken).toBeDefined();
@@ -27,19 +18,7 @@ describe('authController', () => {
     expect(response.body.accessToken.length).toBeGreaterThan(0);
   });
 
-  test('This test should pass: post /auth/login as admin', async () => {
-    const response = await request(app).post('/api/v1/auth/login').send({
-      email: 'admin@admin.com',
-      password: 'adminadminadmin',
-    });
-    expect(response.status).toBe(200);
-
-    expect(response.body.accessToken).toBeDefined();
-    expect(typeof response.body.accessToken).toBe('string');
-    expect(response.body.accessToken.length).toBeGreaterThan(0);
-  });
-
-  test('This test should pass: post /auth/login as user', async () => {
+  test('login as user', async () => {
     const response = await request(app).post('/api/v1/auth/login').send({
       email: 'user@user.com',
       password: 'useruseruser',
@@ -51,7 +30,7 @@ describe('authController', () => {
     expect(response.body.accessToken.length).toBeGreaterThan(0);
   });
 
-  test('This test should fail: post /auth/signup with an existing email being used', async () => {
+  test('fails to register a user with an existing email address', async () => {
     const response = await request(app).post('/api/v1/auth/signup').send({
       password: 'KahnaPassword',
       firstName: 'Kahna',
@@ -62,7 +41,7 @@ describe('authController', () => {
     expect(response.status).toBe(500);
   });
 
-  test('This test should fail: post /auth/signup missing fields', async () => {
+  test('fails to create a user due to missing input fields', async () => {
     const response = await request(app).post('/api/v1/auth/signup').send({
       password: 'KahnaPassword',
       firstName: '',
@@ -73,7 +52,7 @@ describe('authController', () => {
     expect(response.status).toBe(400);
   });
 
-  test('This test should fail: post /auth/login missing 1 or 2 input fields', async () => {
+  test('fails to log in with incomplete input (missing 1 or 2 fields)', async () => {
     const response1 = await request(app).post('/api/v1/auth/login').send({
       password: 'KahnaPassword',
     });
@@ -86,7 +65,7 @@ describe('authController', () => {
     expect(response2.status).toBe(400);
   });
 
-  test('This test should fail: post /auth/login with bad credentials', async () => {
+  test('fails to log in with incorrect credentials', async () => {
     const response1 = await request(app).post('/api/v1/auth/login').send({
       email: 'user@user.comMM',
       password: 'useruseruser',

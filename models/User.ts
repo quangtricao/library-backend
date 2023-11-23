@@ -51,6 +51,13 @@ UserSchema.set('toJSON', {
   },
 });
 
+UserSchema.set('toObject', {
+  virtuals: true,
+  transform: (_doc, ret) => {
+    return _.omit(ret, 'id');
+  },
+});
+
 const UserModel = mongoose.model<UserType>('User', UserSchema);
 
 export default UserModel;

@@ -4,6 +4,7 @@ import AuthService from '../services/authService';
 import { UserDto, UserType, WithAuthRequest } from '../types/users';
 import statusLogger from '../utils/statusLogger';
 import respondWith from '../utils/respondWith';
+import { hideSensitiveData } from '../utils/hideSensitiveData';
 
 async function login(req: Request<unknown, unknown, LoginCredentialsType>, res: Response) {
   const credentials = req.body;
@@ -20,10 +21,10 @@ async function signup(req: Request<unknown, unknown, UserDto>, res: Response) {
 
 async function me(req: WithAuthRequest, res: Response) {
   const user = await AuthService.me(req.user as UserType);
-  respondWith(res, { code: 200, data: user });
+  respondWith(res, { code: 200, data: hideSensitiveData(user) });
 }
 
-async function updatePassword(req: WithAuthRequest, res: Response) {
+async function changePassword(req: WithAuthRequest, res: Response) {
   const passwords = req.body;
   const user = req.user as UserType;
   await AuthService.changePassword(user.id, passwords);
@@ -34,5 +35,5 @@ export default {
   login,
   signup,
   me,
-  updatePassword,
+  changePassword,
 };

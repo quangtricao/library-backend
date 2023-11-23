@@ -24,5 +24,5 @@ authRouter.post(
   '/change-password',
   checkAuth,
   AuthValidator.validateUpdatePasswordInput,
-  passThrowsToMiddleware(AuthController.updatePassword)
+  passThrowsToMiddleware(AuthController.changePassword)
 );

@@ -9,12 +9,7 @@ import { checkAdmin } from '../middlewares/checkAdmin';
 
 export const userRouter = express.Router();
 
-userRouter.get(
-  '/',
-  checkAuth,
-  checkAdminRoleOrOwnership,
-  passThrowsToMiddleware(UsersController.getAllUsers)
-);
+userRouter.get('/', checkAuth, checkAdmin, passThrowsToMiddleware(UsersController.getAllUsers));
 userRouter.get(
   '/:id',
   validateId,

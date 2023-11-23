@@ -61,6 +61,8 @@ async function deleteOne(isbn: string) {
     throw ApiError.resourceNotFound('Book not found');
   }
   await Book.findOneAndDelete({ isbn });
+  await BookAuthor.deleteMany({ bookId: bookExists._id });
+  await BookGenre.deleteMany({ bookId: bookExists._id });
 }
 
 export default {

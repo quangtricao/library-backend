@@ -5,6 +5,7 @@ import { validateId } from '../middlewares/idValidator';
 import { validateUserDtoInput } from '../middlewares/usersValidator';
 import { checkAuth } from '../middlewares/checkAuth';
 import { checkAdminRoleOrOwnership } from '../middlewares/checkAdminRoleOrOwnership';
+import { checkAdmin } from '../middlewares/checkAdmin';
 
 export const userRouter = express.Router();
 
@@ -52,6 +53,14 @@ userRouter.delete(
   checkAuth,
   checkAdminRoleOrOwnership,
   passThrowsToMiddleware(UsersController.deleteUserById)
+);
+
+userRouter.put(
+  '/:id/role',
+  validateId,
+  checkAuth,
+  checkAdmin,
+  passThrowsToMiddleware(UsersController.changeRole)
 );
 
 export default userRouter;

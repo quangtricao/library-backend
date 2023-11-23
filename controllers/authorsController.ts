@@ -10,7 +10,7 @@ export const getAllAuthors = async (req: Request, res: Response) => {
   const options = await getFindAllAuthorsOptionsFromQuery(req.query);
   const authorName = req.query.name as AuthorFilters;
   const authors = await AuthorsService.getAll(options, authorName);
-  res.json(authors);
+  respondWith(res, { code: 200, data: authors });
 };
 
 export const getAuthorsBooks = async (req: Request, res: Response) => {

@@ -23,24 +23,23 @@ describe('authorsService', () => {
       limit: 20,
     };
     const response = await authorsService.getBooksByAuthor(author.id, options);
-    expect(response).toEqual([]);
+    expect(response.books).toEqual([]);
   });
   test('getBooksByAuthor returns associated books for the author', async () => {
     const author = await Author.create(authorsFixture[0]);
-    const book = await BooksService.createOne({
+    await BooksService.createOne({
       ...booksFixture[0],
       status: 'available',
       authors: [author.id],
     });
-    console.log(book);
     const options = {
       name: '',
       page: 1,
       limit: 20,
     };
     const response = await authorsService.getBooksByAuthor(author.id, options);
-    console.log(response)
-    expect(response).toHaveLength(1)
+    expect(response.books).toHaveLength(1);
+    expect(response.books[0].title).toEqual(booksFixture[0].title);
   });
 
   afterAll(async () => {

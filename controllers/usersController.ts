@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
 import UsersService from '../services/usersService';
-import { UserDto } from '../types/users';
+import { Role, UserDto } from '../types/users';
+import respondWith from '../utils/respondWith';
 
 async function getAllUsers(_req: Request, res: Response) {
   const users = await UsersService.findAll();
-  res.status(200).json(users);
+  respondWith(res, { code: 200, data: users });
 }
 
 async function getUserById(req: Request<{ id: string }>, res: Response) {
   const { id } = req.params;
   const user = await UsersService.findOne(id);
-  res.status(200).json(user);
+  respondWith(res, { code: 200, data: user });
 }
 
 async function updateUserById(req: Request<{ id: string }, unknown, UserDto>, res: Response) {
@@ -18,6 +19,7 @@ async function updateUserById(req: Request<{ id: string }, unknown, UserDto>, re
   const userDto = req.body;
   const updatedUser = await UsersService.updateOne(id, userDto);
   res.status(200).json(updatedUser);
+  respondWith(res, { code: 200, data: updatedUser });
 }
 
 async function deleteUserById(req: Request<{ id: string }>, res: Response) {
@@ -40,6 +42,13 @@ async function returnBooks(req: Request<{ id: string }, string[]>, res: Response
   res.status(200).send(returnedBooksIds);
 }
 
+async function changeRole(req: Request<{ id: string }, { role: Role }>, res: Response) {
+  const { id } = req.params;
+  const { role } = req.body;
+  const updatedUser = await UsersService.changeRole(id, role);
+  res.status(200).json(updatedUser);
+}
+
 export default {
   getAllUsers,
   getUserById,
@@ -47,4 +56,5 @@ export default {
   deleteUserById,
   borrowBooks,
   returnBooks,
+  changeRole,
 };

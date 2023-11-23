@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { LoginCredentialsSchema } from '../schemas/auth';
-import { validateUserDtoInput } from './usersValidator';
+import { LoginCredentialsSchema, SignupCredentialsSchema } from '../schemas/auth';
 
 async function validateLoginCredentials(req: Request, res: Response, next: NextFunction) {
   try {
@@ -11,7 +10,14 @@ async function validateLoginCredentials(req: Request, res: Response, next: NextF
   }
 }
 
-const validateSignupInput = validateUserDtoInput;
+async function validateSignupInput(req: Request, res: Response, next: NextFunction) {
+  try {
+    await SignupCredentialsSchema.parseAsync(req.body);
+    next();
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 
 export default {
   validateLoginCredentials,

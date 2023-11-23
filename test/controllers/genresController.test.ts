@@ -16,7 +16,10 @@ describe('gernesController', () => {
   it('get /genres', async () => {
     const response = await request(app).get('/api/v1/genres').send();
     expect(response.status).toBe(200);
-    expect(response.body).toEqual([]);
+    expect(response.body).toEqual({
+      data: { genres: [], pagination: { page: 1, totalPages: 0 } },
+      status: 'success',
+    });
   });
 
   it('should not get /genres with incorrect pagination', async () => {
@@ -108,14 +111,13 @@ describe('genresController protected routes as admin', () => {
         title: 'New Genre',
       });
     const response = await request(app)
-      .put(`/api/v1/genres/${newGenre.body._id}`)
+      .put(`/api/v1/genres/${newGenre.body.data._id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         title: 'Updated genre',
       });
-
     expect(response.status).toBe(200);
-    expect(response.body.title).toBe('Updated genre');
+    expect(response.body.data.title).toBe('Updated genre');
   });
 
   it('should not update non-existing genre', async () => {

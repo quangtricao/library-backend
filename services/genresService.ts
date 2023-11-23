@@ -44,7 +44,7 @@ const getAllBooks = async (id: string, pagination: PaginationType) => {
   const entitiesCount = await BookGenre.countDocuments({ genreId: genre._id });
   const paginationOutput = composePaginationOutput(entitiesCount, pagination);
   const books = bookGenres.map((bookGenre) => bookGenre.bookId);
-  return { books, paginationOutput };
+  return { books, pagination: paginationOutput };
 };
 
 const create = async (genre: GenreDTO) => {

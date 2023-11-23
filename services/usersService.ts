@@ -1,11 +1,11 @@
-import { Role, UserDto } from '../types/users';
+import { Role, UserDto, UserType } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
 import _ from 'lodash';
 
 const findAll = async () => {
-  const users = await UserModel.find();
+  const users = await UserModel.find().select('-password');
   return users;
 };
 
@@ -63,8 +63,8 @@ const changeRole = async (userId: string, role: Role) => {
   if (!user) {
     throw ApiError.resourceNotFound('User not found');
   }
-  const updatedUser = await user.updateOne({ role }, { new: true });
-  return updatedUser;
+  const updatedUser = await UserModel.findByIdAndUpdate(user.id, { role }, { new: true });
+  return updatedUser as UserType;
 };
 
 export default {

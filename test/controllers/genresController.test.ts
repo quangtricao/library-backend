@@ -26,9 +26,7 @@ describe('gernesController', () => {
 
   it('get existing genre', async () => {
     const newGenre = await GenreModel.create({ title: genresFixture[0].title });
-    let id = JSON.stringify(newGenre._id); // because newGenre._id = new ObjectId('655e9ea88e8cbfbd602a5108')
-    id = id.slice(1, id.length - 1); // because JSON.stringify(newGenre._id) = '655e9ea88e8cbfbd602a5108'
-    const response = await request(app).get(`/api/v1/genres/${id}`).send();
+    const response = await request(app).get(`/api/v1/genres/${newGenre.id}`).send();
     expect(response.status).toBe(200);
   });
 

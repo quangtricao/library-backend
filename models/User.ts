@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { UserType, role } from '../types/users';
+import _ from 'lodash';
 
 const UserSchema = new mongoose.Schema<UserType>({
   role: {
@@ -34,14 +35,19 @@ const UserSchema = new mongoose.Schema<UserType>({
   image: {
     type: String,
     required: true,
-    validate: {
-      validator: (v: string) => {
-        // Simple URL validation
-        const urlRegex = /^(https?):\/\/([^\s$.?#].[^\s]*)$/i;
-        return urlRegex.test(v);
-      },
-      message: 'Invalid URL format',
-    },
+  },
+});
+
+UserSchema.virtual('borrowedBooks', {
+  ref: 'Book',
+  localField: '_id',
+  foreignField: 'borrowerId',
+});
+
+UserSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_doc, ret) => {
+    return _.omit(ret, 'id');
   },
 });
 

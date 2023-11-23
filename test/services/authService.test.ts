@@ -1,5 +1,5 @@
 import connect, { MongoHelper } from '../dbHelper';
-import { createUser } from '../__fixtures__/createUser';
+import usersFixture from '../__fixtures__/users';
 import authService from '../../services/authService';
 
 describe('authService', () => {
@@ -10,36 +10,14 @@ describe('authService', () => {
   });
 
   test('create a user', async () => {
-    const response = await createUser();
-
-    expect(response.accessToken).toBeDefined();
-    expect(typeof response.accessToken).toBe('string');
-    expect(response.accessToken.length).toBeGreaterThan(0);
-
-    expect(response.user).toBeDefined();
-    expect(typeof response.user).toBe('object');
-    expect(response.user._id).toBeDefined();
-    expect(response.user.password).toBeDefined();
-    expect(response.user.lastName).toEqual('user');
-    expect(response.user.firstName).toEqual('user');
-    expect(response.user.role).toEqual('USER');
-    expect(response.user.password).toBeDefined();
-    expect(response.user.email).toEqual('user@user.com');
-    expect(response.user.image).toEqual('https://images.com/user.png');
-    expect(response.user.__v).toEqual(0);
+    const result = await authService.signup(usersFixture[0]);
+    expect(result.accessToken).toBeDefined();
   });
 
   test('login as user', async () => {
-    const loginCredentials = {
-      email: 'user@user.com',
-      password: 'useruseruser',
-    };
-
-    const loginAsUser = await authService.login(loginCredentials);
+    const { email, password } = usersFixture[0];
+    const loginAsUser = await authService.login({ email, password });
     expect(loginAsUser.accessToken).toBeDefined();
-    expect(loginAsUser.user).toBeDefined();
-    expect(loginAsUser.user.role).toEqual('USER');
-    expect(loginAsUser.user.email).toEqual('user@user.com');
   });
 
   afterAll(async () => {

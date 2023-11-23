@@ -1,16 +1,27 @@
 import request from 'supertest';
 import connect, { MongoHelper } from '../dbHelper';
 import app from '../..';
+
+import Book from '../../models/Book';
 import GenreModel from '../../models/Genre';
+import BookGenre from '../../models/BookGenre';
 import genresFixture from '../__fixtures__/genres';
+import booksFixture from '../__fixtures__/books';
 import { createUser } from '../__fixtures__/createUser';
 import { createAdmin } from '../__fixtures__/createAdmin';
 
 describe('gernesController', () => {
   let mongoHelper: MongoHelper;
+  let nonExitID: string;
 
   beforeAll(async () => {
     mongoHelper = await connect();
+    nonExitID = '10566c2227fb4cb14cc85fdc';
+  });
+  beforeEach(async () => {
+    await Book.deleteMany({});
+    await GenreModel.deleteMany({});
+    await BookGenre.deleteMany({});
   });
 
   it('get /genres', async () => {
@@ -27,15 +38,25 @@ describe('gernesController', () => {
     expect(response.status).toBe(400);
   });
 
-  it('get existing genre', async () => {
-    const newGenre = await GenreModel.create({ title: genresFixture[0].title });
+  it('get an existing genre', async () => {
+    const newGenre = await GenreModel.create(genresFixture[0]);
     const response = await request(app).get(`/api/v1/genres/${newGenre.id}`).send();
     expect(response.status).toBe(200);
   });
 
-  it('should not get non-existing genre', async () => {
-    const response = await request(app).get(`/api/v1/genres/${genresFixture[0].id}`).send();
+  it('should not get a non-existing genre', async () => {
+    const response = await request(app).get(`/api/v1/genres/${nonExitID}`).send();
     expect(response.status).toBe(404);
+  });
+
+  it('get all books by a genre', async () => {
+    const newGenre = await GenreModel.create(genresFixture[0]);
+    const newBook1 = await Book.create(booksFixture[0]);
+    const newBook2 = await Book.create(booksFixture[1]);
+    await BookGenre.create({ bookId: newBook1.id, genreId: newGenre.id });
+    await BookGenre.create({ bookId: newBook2.id, genreId: newGenre.id });
+    const response = await request(app).get(`/api/v1/genres/${newGenre.id}/books`).send();
+    expect(response.status).toBe(200);
   });
 
   afterAll(async () => {
@@ -50,8 +71,10 @@ describe('genresController protected routes as user', () => {
   beforeAll(async () => {
     mongoHelper = await connect();
     const { accessToken } = await createUser();
-    await GenreModel.create(genresFixture[0]);
     token = accessToken;
+  });
+  beforeEach(async () => {
+    await GenreModel.deleteMany({});
   });
 
   it('should not allow to create a genre', async () => {
@@ -63,16 +86,18 @@ describe('genresController protected routes as user', () => {
   });
 
   it('should not allow to update a genre', async () => {
+    const newGenre = await GenreModel.create(genresFixture[0]);
     const response = await request(app)
-      .put(`/api/v1/genres/${genresFixture[0].id}`)
+      .put(`/api/v1/genres/${newGenre.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({ title: 'Updated genre' });
     expect(response.status).toBe(403);
   });
 
   it('should not allow to delete a genre', async () => {
+    const newGenre = await GenreModel.create(genresFixture[0]);
     const response = await request(app)
-      .delete(`/api/v1/genres/${genresFixture[0].id}`)
+      .delete(`/api/v1/genres/${newGenre.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send();
     expect(response.status).toBe(403);
@@ -86,32 +111,30 @@ describe('genresController protected routes as user', () => {
 describe('genresController protected routes as admin', () => {
   let mongoHelper: MongoHelper;
   let token: string;
+  let nonExitID: string;
 
   beforeAll(async () => {
     mongoHelper = await connect();
     const { accessToken } = await createAdmin();
     token = accessToken;
+    nonExitID = '10566c2227fb4cb14cc85fdc';
+  });
+  beforeEach(async () => {
+    await GenreModel.deleteMany({});
   });
 
   it('creates a genre', async () => {
     const response = await request(app)
       .post('/api/v1/genres')
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        title: genresFixture[0].title,
-      });
+      .send(genresFixture[0]);
     expect(response.status).toBe(201);
   });
 
   it('updates existing genre', async () => {
-    const newGenre = await request(app)
-      .post('/api/v1/genres')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        title: 'New Genre',
-      });
+    const newGenre = await GenreModel.create(genresFixture[0]);
     const response = await request(app)
-      .put(`/api/v1/genres/${newGenre.body.data._id}`)
+      .put(`/api/v1/genres/${newGenre.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         title: 'Updated genre',
@@ -122,15 +145,16 @@ describe('genresController protected routes as admin', () => {
 
   it('should not update non-existing genre', async () => {
     const response = await request(app)
-      .put(`/api/v1/genres/${genresFixture[0].id}`)
+      .put(`/api/v1/genres/${nonExitID}`)
       .set('Authorization', `Bearer ${token}`)
       .send({ title: 'Updated title' });
     expect(response.status).toBe(404);
   });
 
   it('deletes a genre', async () => {
+    const newGenre = await GenreModel.create(genresFixture[0]);
     const response = await request(app)
-      .delete(`/api/v1/genres/${genresFixture[0].id}`)
+      .delete(`/api/v1/genres/${newGenre.id}`)
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(204);
   });

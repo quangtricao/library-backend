@@ -4,7 +4,7 @@ import genresValidator from '../middlewares/genresValidator';
 import { passThrowsToMiddleware } from '../utils/passThrowsToMiddleware';
 import { validateId } from '../middlewares/idValidator';
 import { checkAuth } from '../middlewares/checkAuth';
-import { checkAdminRoleOrOwnership } from '../middlewares/checkAdminRoleOrOwnership';
+import { checkAdmin } from '../middlewares/checkAdmin';
 
 export const genresRouter = express.Router();
 
@@ -20,20 +20,20 @@ genresRouter.get('/:id/books', passThrowsToMiddleware(genreController.getAllBook
 genresRouter.post(
   '/',
   checkAuth,
-  checkAdminRoleOrOwnership,
+  checkAdmin,
   genresValidator.validateGenreDtoInput,
   passThrowsToMiddleware(genreController.createGenre)
 );
 genresRouter.put(
   '/:id',
   checkAuth,
-  checkAdminRoleOrOwnership,
+  checkAdmin,
   genresValidator.validateGenreDtoInput,
   passThrowsToMiddleware(genreController.updateGenre)
 );
 genresRouter.delete(
   '/:id',
   checkAuth,
-  checkAdminRoleOrOwnership,
+  checkAdmin,
   passThrowsToMiddleware(genreController.deleteGenre)
 );

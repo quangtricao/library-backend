@@ -18,6 +18,7 @@ describe('gernesController', () => {
     mongoHelper = await connect();
     nonExitID = '10566c2227fb4cb14cc85fdc';
   });
+  
   beforeEach(async () => {
     await Book.deleteMany({});
     await GenreModel.deleteMany({});
@@ -56,7 +57,9 @@ describe('gernesController', () => {
     await BookGenre.create({ bookId: newBook1.id, genreId: newGenre.id });
     await BookGenre.create({ bookId: newBook2.id, genreId: newGenre.id });
     const response = await request(app).get(`/api/v1/genres/${newGenre.id}/books`).send();
+
     expect(response.status).toBe(200);
+    expect(response.body.data.books.length).toBe(2);
   });
 
   afterAll(async () => {

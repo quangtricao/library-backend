@@ -1,9 +1,8 @@
-import { UserDto } from '../types/users';
+import { Role, UserDto } from '../types/users';
 import UserModel from '../models/User';
 import { ApiError } from '../errors/ApiError';
 import Book from '../models/Book';
-import bcrypt from 'bcrypt';
-import { SALT_ROUNDS } from './authService';
+import _ from 'lodash';
 
 const findAll = async () => {
   const users = await UserModel.find();
@@ -28,13 +27,11 @@ const createOne = async (userDto: UserDto) => {
 };
 
 const updateOne = async (id: string, userDto: UserDto) => {
-  if (userDto.password) {
-    // 👆 This thing is always true
-    // TODO: Transfer the password update logic to /auth/update-password
-    const hashedPassword = bcrypt.hashSync(userDto.password, SALT_ROUNDS);
-    userDto.password = hashedPassword;
-  }
-  const updatedUser = await UserModel.findByIdAndUpdate(id, userDto, { new: true });
+  const protectedInput = _.omit(userDto, ['password', 'role']);
+  const updatedUser = await UserModel.findByIdAndUpdate(id, protectedInput, {
+    new: true,
+  });
+
   if (!updatedUser) {
     throw ApiError.resourceNotFound('User not found');
   }
@@ -61,6 +58,15 @@ const returnBooks = async (userId: string, bookIds: string[]) => {
   return returnedBooksIds;
 };
 
+const changeRole = async (userId: string, role: Role) => {
+  const user = await findOne(userId);
+  if (!user) {
+    throw ApiError.resourceNotFound('User not found');
+  }
+  const updatedUser = await user.updateOne({ role }, { new: true });
+  return updatedUser;
+};
+
 export default {
   findAll,
   findOne,
@@ -70,4 +76,5 @@ export default {
   deleteOne,
   borrowBooks,
   returnBooks,
+  changeRole,
 };

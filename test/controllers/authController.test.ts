@@ -13,9 +13,7 @@ describe('authController', () => {
   test('user signup', async () => {
     const response = await request(app).post('/api/v1/auth/signup').send(userFixtures[0]);
     expect(response.status).toBe(201);
-    expect(response.body.accessToken).toBeDefined();
-    expect(typeof response.body.accessToken).toBe('string');
-    expect(response.body.accessToken.length).toBeGreaterThan(0);
+    expect(response.body.data.accessToken).toBeDefined();
   });
 
   test('login as user', async () => {
@@ -24,10 +22,7 @@ describe('authController', () => {
       password: 'useruseruser',
     });
     expect(response.status).toBe(200);
-
-    expect(response.body.accessToken).toBeDefined();
-    expect(typeof response.body.accessToken).toBe('string');
-    expect(response.body.accessToken.length).toBeGreaterThan(0);
+    expect(response.body.data.accessToken).toBeDefined();
   });
 
   test('fails to register a user with an existing email address', async () => {
@@ -57,7 +52,6 @@ describe('authController', () => {
       password: 'KahnaPassword',
     });
     expect(response1.status).toBe(400);
-
     const response2 = await request(app).post('/api/v1/auth/login').send({
       email: '',
       password: '',

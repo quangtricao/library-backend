@@ -7,3 +7,8 @@ export const LoginCredentialsSchema = z.object({
 });
 
 export const SignupCredentialsSchema = UserDtoSchema.strict();
+
+export const UpdatePasswordSchema = z.object({
+  oldPassword: UserDtoSchema.shape.password,
+  newPassword: UserDtoSchema.shape.password,
+});

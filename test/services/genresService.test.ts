@@ -15,7 +15,7 @@ describe('gernesService', () => {
       limit: 20,
     };
     const response = await genreService.getAll(options);
-    expect(response).toEqual([]);
+    expect(response).toEqual({ genres: [], pagination: { page: 1, totalPages: 0 } });
   });
 
   afterAll(async () => {

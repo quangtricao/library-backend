@@ -4,7 +4,6 @@ import { ApiError } from '../errors/ApiError';
 import BookAuthor from '../models/BookAuthor';
 import { mapPaginationToMongoose } from '../utils/mongoose';
 import { composePaginationOutput } from '../utils/pagination';
-import Book from '../models/Book';
 import { BookType } from '../types/books';
 
 const getAll = async (options: FindAllAuthorsOptions, name?: AuthorFilters) => {

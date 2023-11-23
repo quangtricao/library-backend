@@ -13,7 +13,6 @@ const getAll = async (options: FindAllAuthorsOptions, name?: AuthorFilters) => {
   const authors = await Author.find(query, {}, pagination);
   return authors;
 };
-
 const getBooksByAuthor = async (authorId: string, options: FindAllAuthorsOptions) => {
   const author = await Author.findById(authorId);
   if (!author) {
@@ -44,7 +43,7 @@ const getById = async (authorId: string) => {
 };
 
 const updateById = async (authorId: string, author: AuthorDto) => {
-  const updatedAuthor = await Author.findByIdAndUpdate(authorId, author, {new:true});
+  const updatedAuthor = await Author.findByIdAndUpdate(authorId, author, { new: true });
   if (!author) {
     throw ApiError.resourceNotFound('Author not found');
   }

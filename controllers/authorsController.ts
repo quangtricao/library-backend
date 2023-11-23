@@ -4,6 +4,7 @@ import AuthorsService from '../services/authorsService';
 import { AuthorFilters } from '../types/authors';
 import { getFindAllAuthorsOptionsFromQuery } from '../utils/authors';
 import { getPaginationOptionsFromQuery } from '../utils/pagination';
+import respondWith from '../utils/respondWith';
 
 export const getAllAuthors = async (req: Request, res: Response) => {
   const options = await getFindAllAuthorsOptionsFromQuery(req.query);
@@ -15,26 +16,26 @@ export const getAllAuthors = async (req: Request, res: Response) => {
 export const getAuthorsBooks = async (req: Request, res: Response) => {
   const id = req.params.id;
   const pagination = await getPaginationOptionsFromQuery(req.query);
-  const books = await AuthorsService.getBooksByAuthor(id, pagination);
-  res.status(200).json(books);
+  const book = await AuthorsService.getBooksByAuthor(id, pagination);
+  respondWith(res, { code: 200, data: book });
 };
 
 export const createAuthor = async (req: Request, res: Response) => {
   const createdAuthor = await AuthorsService.createNewAuthor(req.body);
-  res.status(201).json(createdAuthor);
+  respondWith(res, { code: 201, data: createdAuthor });
 };
 
 export const getAuthorById = async (req: Request, res: Response) => {
   const author = await AuthorsService.getById(req.params.id);
-  res.json(author);
+  respondWith(res, { code: 200, data: author });
 };
 
 export const updateAuthor = async (req: Request, res: Response) => {
   const updatedAuthor = await AuthorsService.updateById(req.params.id, req.body);
-  res.json(updatedAuthor);
+  respondWith(res, { code: 200, data: updatedAuthor });
 };
 
 export const deleteAuthor = async (req: Request, res: Response) => {
   await AuthorsService.deleteById(req.params.id);
-  res.status(204).send();
+  respondWith(res, { code: 204 });
 };

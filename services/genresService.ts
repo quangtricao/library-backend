@@ -1,9 +1,10 @@
-import { GenreDTO, GenreQueryParamsType } from '../types/genres';
-import GenreModel from '../models/Genre';
 import { ApiError } from '../errors/ApiError';
+import GenreModel from '../models/Genre';
 import BookGenre from '../models/BookGenre';
-import { mapPaginationToMongoose } from '../utils/mongoose';
 import { PaginationType } from '../types/pagination';
+import { GenreDTO, GenreQueryParamsType } from '../types/genres';
+import { mapPaginationToMongoose } from '../utils/mongoose';
+import { composePaginationOutput } from '../utils/pagination';
 
 const getAll = async (options: GenreQueryParamsType) => {
   const paginationOption = mapPaginationToMongoose({ page: options.page, limit: options.limit });
@@ -12,7 +13,14 @@ const getAll = async (options: GenreQueryParamsType) => {
     {},
     paginationOption
   );
-  return genres;
+  const entitiesCount = await GenreModel.countDocuments({
+    title: { $regex: options.title, $options: 'i' },
+  });
+  const pagination = composePaginationOutput(entitiesCount, {
+    page: options.page,
+    limit: options.limit,
+  });
+  return { genres, pagination };
 };
 
 const getOne = async (id: string) => {
@@ -33,9 +41,10 @@ const getAllBooks = async (id: string, pagination: PaginationType) => {
     path: 'bookId',
     model: 'Book',
   });
-
+  const entitiesCount = await BookGenre.countDocuments({ genreId: genre._id });
+  const paginationOutput = composePaginationOutput(entitiesCount, pagination);
   const books = bookGenres.map((bookGenre) => bookGenre.bookId);
-  return books;
+  return { books, paginationOutput };
 };
 
 const create = async (genre: GenreDTO) => {

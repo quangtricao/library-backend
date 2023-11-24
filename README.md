@@ -1,6 +1,7 @@
-# Backend Assignment - API
+# Introduction
 
-This is the README for an Express backend assignment that requires you to implement the REST APIs for a library management system or E-commerce based on the Entity-Relationship Diagram (ERD) assignment. The ERD assignment should outline the data model, including the relationships and attributes of entities within the system. You are tasked with designing and documenting the REST APIs according to the ERD specifications.
+Express.js API for a library management system.
+The API allows users to perform CRUD operations on books, authors, genres and user domains.
 
 [![Node.js Lint & Build](https://github.com/arf1e/team-5-backend/actions/workflows/node.yml/badge.svg)](https://github.com/arf1e/team-5-backend/actions/workflows/node.yml)
 [![Deployment](https://github.com/arf1e/team-5-backend/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/arf1e/team-5-backend/actions/workflows/deploy-api.yml)
@@ -8,29 +9,18 @@ This is the README for an Express backend assignment that requires you to implem
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
 ---
 
 ## Table of content
 
-- [Getting started](#getting-started)
 - [Team 5](#team-5)
-- [Introduction](#introduction)
-- [Entity CRUD Operations](#entity-crud-operations)
-- [Authentication](#authentication)
-- [Minimun requirements](#minimum-requirements)
-- [Response Format](#response-format)
-- [Error Handling](#error-handling)
-- [Testing](#testing)
+- [Getting started](#getting-started)
+- [Running tests](#running-tests)
+- [Project structure](#project-structure)
 - [Deployment](#deployment)
-
-## Getting started
-
-- Clone this project using `git clone git@github.com:arf1e/team-5-backend.git` command;
-- Create your `.env` from `.env.example` either by hand or with `cp .env.example .env` (macOS/Linux/WSL);
-- Fill the `.env` file with your MongoDB cluster credentials;
-- Install the project dependencies with `pnpm install`;
-- Run the project in dev mode with `pnpm dev`.
 
 ## Team 5
 
@@ -39,33 +29,48 @@ This is the README for an Express backend assignment that requires you to implem
 - [Thuy Hien Tran Nguyen](https://github.com/JuliaThTranNguyen) - Users
 - [Egor Bulgakov](https://github.com/arf1e) - Books
 
-## Introduction
+## Technologies
 
-This Express backend assignment involves building a RESTful API for a library management system or E-commerce. You are provided with an Entity-Relationship Diagram (ERD) assignment that outlines the data model, including the relationships and attributes of entities such as books, users, authors, and admin roles.
+- Typescript
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- Jest
 
-## Entity CRUD Operations
+## Getting started
 
-`Before` implementing JWT authentication, `you are required to create the basic CRUD` (Create, Read, Update, Delete) operations for the entities based on the specifications provided in the ERD assignment. This section focuses on designing and implementing the core functionality to manage and interact with the specified entities.
+- Clone this project using `git clone git@github.com:arf1e/team-5-backend.git` command;
+- Create your `.env` from `.env.example` either by hand or with `cp .env.example .env` (macOS/Linux/WSL);
+- Fill the `.env` file with your MongoDB cluster credentials and JWT encoding secret;
+- Install the project dependencies with `pnpm install`;
+- Run the project in dev mode with `pnpm dev`.
 
-## Authentication
+## Running tests
 
-For security, this API should implement user authentication using JSON Web Tokens (JWT). Each user should have a unique username and password OR broker authentication. Certain admin endpoints may require special privileges for access.
+- Use `pnpm test` command to run test cases;
+- Use `pnpm test-coverage` to generate coverage report.
 
-## Minimum requirements
+## Project structure
 
-Please check the REST API slides where you can find the minimum requirements of the project.
-
-## Response Format
-
-All API responses should be provided in JSON format. A typical response should include a `status`, `data`, and an optional `message` field. The `status` field should indicate the success or failure of the request.
-
-## Error Handling
-
-The API should include comprehensive error handling with clear and informative error messages. Errors should be accompanied by appropriate HTTP status codes.
-
-## Testing
-
-Developers should conduct unit tests and integration tests to ensure the reliability and correctness of the API. Instructions for running the tests should be provided in the project's documentation.
+```
+.
+├── common
+├── config
+├── controllers
+├── errors
+├── middlewares
+├── models
+│   └── helpers
+├── routes
+├── schemas
+├── services
+├── test
+│   ├── __fixtures__
+│   ├── controllers
+│   └── services
+├── types
+└── utils
+```
 
 ## Deployment
 

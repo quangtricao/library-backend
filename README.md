@@ -41,7 +41,7 @@ The API allows users to perform CRUD operations on books, authors, genres and us
 
 - Clone this project using `git clone git@github.com:arf1e/team-5-backend.git` command;
 - Create your `.env` from `.env.example` either by hand or with `cp .env.example .env` (macOS/Linux/WSL);
-- Fill the `.env` file with your MongoDB cluster credentials;
+- Fill the `.env` file with your MongoDB cluster credentials and JWT encoding secret;
 - Install the project dependencies with `pnpm install`;
 - Run the project in dev mode with `pnpm dev`.
 
@@ -57,23 +57,6 @@ The API allows users to perform CRUD operations on books, authors, genres and us
 ├── common
 ├── config
 ├── controllers
-├── dist
-│   ├── common
-│   ├── config
-│   ├── controllers
-│   ├── errors
-│   ├── middlewares
-│   ├── models
-│   │   └── helpers
-│   ├── routes
-│   ├── schemas
-│   ├── services
-│   ├── test
-│   │   ├── __fixtures__
-│   │   ├── controllers
-│   │   └── services
-│   ├── types
-│   └── utils
 ├── errors
 ├── middlewares
 ├── models

@@ -18,7 +18,7 @@ describe('gernesController', () => {
     mongoHelper = await connect();
     nonExitID = '10566c2227fb4cb14cc85fdc';
   });
-  
+
   beforeEach(async () => {
     await Book.deleteMany({});
     await GenreModel.deleteMany({});
@@ -76,6 +76,7 @@ describe('genresController protected routes as user', () => {
     const { accessToken } = await createUser();
     token = accessToken;
   });
+
   beforeEach(async () => {
     await GenreModel.deleteMany({});
   });
@@ -122,6 +123,7 @@ describe('genresController protected routes as admin', () => {
     token = accessToken;
     nonExitID = '10566c2227fb4cb14cc85fdc';
   });
+
   beforeEach(async () => {
     await GenreModel.deleteMany({});
   });
@@ -132,6 +134,14 @@ describe('genresController protected routes as admin', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(genresFixture[0]);
     expect(response.status).toBe(201);
+  });
+
+  it('should not create a genre with invalid genreDTO', async () => {
+    const response = await request(app)
+      .post('/api/v1/genres')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: '' });
+    expect(response.status).toBe(400);
   });
 
   it('updates existing genre', async () => {

@@ -52,6 +52,12 @@ async function updateOne(isbn: string, bookDto: BookDto) {
   if (!updatedBook) {
     throw ApiError.resourceNotFound('Book not found');
   }
+  if (bookDto.authors) {
+    await assignAuthorsToBook(updatedBook.id, bookDto.authors);
+  }
+  if (bookDto.genres) {
+    await assignGenresToBook(updatedBook.id, bookDto.genres);
+  }
   return updatedBook;
 }
 

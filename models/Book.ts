@@ -32,7 +32,7 @@ const BookSchema = new Schema(
       type: String,
       required: true,
     },
-    publishedDate: { type: Date, required: true },
+    publishedYear: { type: Number, required: true },
     status: {
       type: String,
       enum: ['available', 'borrowed'],

@@ -10,9 +10,7 @@ export const BookDtoSchema = z.object({
     .string({ required_error: 'Please provide image' })
     .url('Please provide a somewhat valid url.'),
   publisher: z.string({ required_error: 'Please provide publisher' }).min(2).max(100),
-  publishedDate: z
-    .string({ required_error: 'Please provide publishedDate' })
-    .regex(DATE_REGEXP, 'Please provide a valid date. Example: 2021-01-01'),
+  publishedYear: z.number({ required_error: 'Please provide publishedYear' }),
   status: z.enum(['available', 'borrowed']).default('available'),
   borrowerId: z.string().optional(),
   borrowDate: z

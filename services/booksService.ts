@@ -53,12 +53,16 @@ async function updateOne(isbn: string, bookDto: BookDto) {
     throw ApiError.resourceNotFound('Book not found');
   }
   if (bookDto.authors) {
+    await BookAuthor.deleteMany({ bookId: updatedBook.id });
     await assignAuthorsToBook(updatedBook.id, bookDto.authors);
   }
   if (bookDto.genres) {
+    await BookGenre.deleteMany({ bookId: updatedBook.id });
     await assignGenresToBook(updatedBook.id, bookDto.genres);
   }
-  return updatedBook;
+
+  // genres and authors updates do not reflect on updatedBook
+  return Book.findOne({ isbn: updatedBook.isbn });
 }
 
 async function deleteOne(isbn: string) {

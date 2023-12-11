@@ -53,7 +53,6 @@ function composeGenreAggregation(genreId: string) {
 }
 
 function composeTitleAggregation(title: string) {
-  if (!title) return [];
   return [
     {
       title: {

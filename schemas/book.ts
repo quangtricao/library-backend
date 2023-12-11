@@ -33,5 +33,5 @@ export const BookFiltersSchema = z.object({
   author: z.string().optional().default(''),
   genre: z.string().optional().default(''),
   title: z.string().optional().default(''),
-  status: BookDtoSchema.shape.status,
+  status: z.enum(['available', 'borrowed', '']).optional().default(''),
 });

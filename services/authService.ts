@@ -57,12 +57,12 @@ const me = async (user: UserType) => {
 const changePassword = async (userId: string, passwords: UpdatePasswordType) => {
   const user = await UsersService.findOne(userId);
   if (!user) {
-    throw ApiError.resourceNotFound('User not found');
+    throw ApiError.resourceNotFound('Bad credentials');
   }
 
   const isValid = await bcrypt.compare(passwords.oldPassword, user.password);
   if (!isValid) {
-    throw ApiError.forbidden('Wrong password');
+    throw ApiError.forbidden('Bad credentials');
   }
 
   const hashedPassword = await bcrypt.hash(passwords.newPassword, SALT_ROUNDS);

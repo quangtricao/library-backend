@@ -34,7 +34,7 @@ async function updateBookByIsbn(req: Request<{ isbn: string }, unknown, BookDto>
 async function deleteBookByIsbn(req: Request<{ isbn: string }>, res: Response) {
   const { isbn } = req.params;
   await BooksService.deleteOne(isbn);
-  respondWith(res, { code: 204 });
+  respondWith(res, { code: 200, data: true });
 }
 
 export default {

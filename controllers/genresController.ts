@@ -41,7 +41,7 @@ const updateGenre = async (req: Request, res: Response) => {
 const deleteGenre = async (req: Request, res: Response) => {
   const id = req.params.id;
   await genreService.remove(id);
-  respondWith(res, { code: 204 });
+  respondWith(res, { code: 200, data: true });
 };
 
 export default {

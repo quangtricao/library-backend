@@ -37,5 +37,5 @@ export const updateAuthor = async (req: Request, res: Response) => {
 
 export const deleteAuthor = async (req: Request, res: Response) => {
   await AuthorsService.deleteById(req.params.id);
-  respondWith(res, { code: 204 });
+  respondWith(res, { code: 200, data: true });
 };

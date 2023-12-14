@@ -20,7 +20,7 @@ authRouter.post(
 
 authRouter.get('/me', checkAuth, passThrowsToMiddleware(AuthController.me));
 
-authRouter.post(
+authRouter.put(
   '/change-password',
   checkAuth,
   AuthValidator.validateUpdatePasswordInput,

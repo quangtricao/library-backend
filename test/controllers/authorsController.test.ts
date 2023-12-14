@@ -137,7 +137,7 @@ describe('authorsController protected routes – admin', () => {
     const response = await request(app)
       .delete(`/api/v1/authors/${author.id}`)
       .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
   });
 
   it('fails to delete non-existing author by ID', async () => {

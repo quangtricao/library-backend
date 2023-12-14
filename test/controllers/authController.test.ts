@@ -56,7 +56,7 @@ describe('authController', () => {
   test('change password fails with incorrect old password', async () => {
     const initialPassword = userFixtures[0].password;
     const newPassword = `${initialPassword}1`;
-    const response = await request(app).post(`/api/v1/auth/change-password`).send({
+    const response = await request(app).put(`/api/v1/auth/change-password`).send({
       oldPassword: newPassword,
       newPassword,
     });
@@ -67,7 +67,7 @@ describe('authController', () => {
     const initialPassword = userFixtures[0].password;
     const newPassword = `${initialPassword}-1`;
     const response = await request(app)
-      .post(`/api/v1/auth/change-password`)
+      .put(`/api/v1/auth/change-password`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         oldPassword: initialPassword,

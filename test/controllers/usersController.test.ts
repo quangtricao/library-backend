@@ -63,7 +63,7 @@ describe('usersController protected routes – admin', () => {
     const response = await request(app)
       .delete(`/api/v1/users/${userToDelete.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
     let thrownError: unknown;
     try {
       await usersService.findOne(userToDelete.id);
@@ -142,7 +142,7 @@ describe('usersController protected routes – user', () => {
     const ownResponse = await request(app)
       .delete(`/api/v1/users/${user.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
-    expect(ownResponse.status).toBe(204);
+    expect(ownResponse.status).toBe(200);
   });
 
   afterAll(async () => {

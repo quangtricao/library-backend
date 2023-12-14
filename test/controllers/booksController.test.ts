@@ -122,7 +122,7 @@ describe('booksController protected routes – admin', () => {
     const response = await request(app)
       .delete(`/api/v1/books/${booksFixture[0].isbn}`)
       .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
   });
 
   it('fails to delete non-existing book by ISBN', async () => {

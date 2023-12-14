@@ -169,7 +169,7 @@ describe('genresController protected routes as admin', () => {
     const response = await request(app)
       .delete(`/api/v1/genres/${newGenre.id}`)
       .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
   });
 
   afterAll(async () => {
